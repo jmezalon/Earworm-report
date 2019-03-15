@@ -1,0 +1,51 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #2F0D6C;
+  color: white;
+  height: 75px;
+  width: 100%;
+  font-size: 20px;
+}
+
+
+a:link {
+  text-decoration: none;
+  color: white;
+}
+
+
+a:visited {
+  color: white;
+}
+
+.navbar a:hover {
+  color: gray;
+  text-decoration: underline;
+}
+
+a:active {
+  color: gray;
+}
+
+.home {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 15px;
+}
+
+.othertabs {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.pro {
+  padding-left: 15px;
+}
+
+.prolast {
+  padding-left: 15px;
+  padding-right: 15px;
+}

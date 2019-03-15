@@ -1,0 +1,18 @@
+.Home1 {
+  display: flex;
+  justify-content: center;
+  width: 80%;
+  margin-left: 80px;
+  background-color: #f1ecec7a;
+  padding-top: 15px;
+  min-width: 800px;
+  min-height: 100%;
+}
+
+#homeh1 {
+  display: flex;
+  justify-content: center;
+  color: black;
+  font-family: sans-serif;
+  padding-top: 30px;
+}
