@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS max_mezalon_final_practice;
-CREATE DATABASE max_mezalon_final_practice;
+DROP DATABASE IF EXISTS max_mezalon_final_practical;
+CREATE DATABASE max_mezalon_final_practical;
 
-\c max_mezalon_final_practice;
+\c max_mezalon_final_practical;
 
 
 CREATE TABLE users (

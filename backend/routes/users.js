@@ -4,6 +4,6 @@ const { getAllUsers } = require('../db/queries/userQueries.js')
 
 /* GET users listing. */
 router.get('/', getAllUsers);
-});
+
 
 module.exports = router;

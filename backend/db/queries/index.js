@@ -1,4 +1,4 @@
 const pgp = require('pg-promise')({});
-const db = pgp('postgress://localhost:5432/Max_Mezalon_Final_Practice');
+const db = pgp('postgress://localhost:5432/max_mezalon_final_practical');
 
 module.exports = { db }
