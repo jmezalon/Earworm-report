@@ -14,4 +14,49 @@ const getAllUsers = (req, res, next) => {
 }
 
 
-module.exports = { getAllUsers }
+const getSingleUser = (req, res, next) => {
+  let userId = req.params.id
+  db.one(`SELECT * FROM users WHERE id=$1`, userId)
+  .then(user => {
+    res.status(200)
+    .json({
+      status: 'success',
+      user: user,
+      message: 'this is one user'
+    })
+  })
+  .catch(err => next(err));
+}
+
+
+const addUser = (req, res, next) => {
+  db.one('INSERT INTO users(username) VALUES(${username}) RETURNING *', req.body)
+  .then((user) => {
+    res.status(200)
+    .json({
+      status: 'success',
+      user: user,
+      message: 'you added a new user'
+    })
+  })
+  .catch(err => next(err));
+}
+
+
+const deleteUser = (req, res, next) => {
+  let userId = parseInt(req.params.id);
+  db.result('DELETE FROM users WHERE id=$1', userId)
+  .then(result => {
+    res.status(200)
+    .json({
+      status: 'success',
+      message: 'you removed this user',
+      result: result
+    })
+  })
+  .catch(err => next(err));
+}
+
+
+
+module.exports = { getAllUsers, getSingleUser, addUser, deleteUser }
