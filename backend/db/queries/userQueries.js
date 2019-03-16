@@ -1,7 +1,18 @@
 const { db } = require('./index.js')
 
 const getAllUsers = (req, res, next) => {
-  db.any('SELECT * FROM users')
+  db.any(`SELECT u.*, fv.favorite
+FROM users AS u
+
+
+FULL JOIN
+        (SELECT COUNT(user_id) AS favorite, user_id
+            FROM favorites
+                GROUP BY favorites.user_id
+                    ) AS fv
+ON fv.user_id = u.id
+ORDER BY fv.favorite
+DESC`)
   .then(users => {
     res.status(200)
     .json({
@@ -58,5 +69,24 @@ const deleteUser = (req, res, next) => {
 }
 
 
+const getAllFavsForSpecificUser = (req, res, next) => {
+  let userId = req.params.id
+  db.any(`SELECT f.id, f.song_id, s.title, s.img_url
+          FROM favorites AS f
+          FULL JOIN songs AS s
+          ON f.song_id = s.id
+          WHERE f.user_id = $1`, userId)
+  .then(favorites => {
+    res.status(200)
+    .json({
+      status: 'success',
+      favorites: favorites,
+      message: 'this is all favorites for this User'
+    })
+  })
+  .catch(err => next(err));
+}
 
-module.exports = { getAllUsers, getSingleUser, addUser, deleteUser }
+
+
+module.exports = { getAllUsers, getAllFavsForSpecificUser, getSingleUser, addUser, deleteUser }

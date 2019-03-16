@@ -25,7 +25,7 @@ CREATE TABLE songs (
 CREATE TABLE favorites (
   id SERIAL PRIMARY KEY,
   user_id INT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  song_id INT REFERENCES songs(id) ON DELETE CASCADE
+  song_id INT REFERENCES songs(id) ON DELETE CASCADE NOT NULL
 );
 
 
@@ -64,7 +64,7 @@ INSERT INTO songs (title, img_url, user_id, genre_id) VALUES
 
 
 INSERT INTO favorites (user_id, song_id) VALUES
-(9, 15),
+(9, 1),
 (1, 1),
 (2, 5),
 (5, 3),
@@ -74,24 +74,24 @@ INSERT INTO favorites (user_id, song_id) VALUES
 (8, 4),
 (7, 15),
 (4, 8),
-(1, 1),
+(1, 2),
 (2, 9),
 (9, 10),
 (1, 11),
 (10, 1),
 (9, 12),
-(1, 1),
+(1, 8),
 (2, 10),
-(5, 3),
+(8, 7),
 (10, 13),
 (3, 14),
 (6, 15),
 (8, 15),
-(7, 7),
+(7, 9),
 (4, 14),
 (9, 5),
 (2, 2),
-(2, 12),
+(2, 11),
 (5, 11),
 (10, 12),
 (3, 9),
@@ -101,7 +101,7 @@ INSERT INTO favorites (user_id, song_id) VALUES
 (4, 15),
 (1, 4),
 (2, 12),
-(9, 15),
+(9, 11),
 (1, 12),
 (10, 15);
 

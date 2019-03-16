@@ -138,5 +138,66 @@ const deleteGenre = (req, res, next) => {
   .catch(err => next(err));
 }
 
+/////////////////// favorite queries
 
-module.exports = { getAllSongsWithUsersGenresOrderByFavorite, getAllSongsBySpecificGenre, getAllSongsPostByOneUser, getOneSong, getAllGenres, postSong, postGenre, deleteSong, deleteGenre }
+const getAllFavorites = (req, res, next) => {
+  db.any('SELECT * FROM favorites')
+  .then(fav => {
+    res.status(200)
+    .json({
+      status: 'success',
+      favorites: fav,
+      message: 'this is all the favorites'
+    })
+  })
+  .catch(err => next(err));
+}
+
+const getAllFavsForSpecificSong = (req, res, next) => {
+  let songId = req.params.id
+  db.any(`SELECT f.id, u.id, u.username
+          FROM favorites AS f
+          FULL JOIN users AS u
+          ON f.user_id = u.id
+          WHERE f.song_id=$1`, songId)
+  .then(favorites => {
+    res.status(200)
+    .json({
+      status: 'success',
+      favorites: favorites,
+      message: 'this is all favorites for this song'
+    })
+  })
+  .catch(err => next(err));
+}
+
+
+const addFavorite = (req, res, next) => {
+  db.one('INSERT INTO favorites(user_id, song_id) VALUES(${user_id}, ${song_id}) RETURNING *', req.body)
+  .then((favorite) => {
+    res.status(200)
+    .json({
+      status: 'success',
+      favorite: favorite,
+      message: 'you added a new favorite'
+    })
+  })
+  .catch(err => next(err));
+}
+
+
+const deleteFavorite = (req, res, next) => {
+  let favoriteId = parseInt(req.params.id);
+  db.result('DELETE FROM favorites WHERE id=$1', favoriteId)
+  .then(result => {
+    res.status(200)
+    .json({
+      status: 'success',
+      message: 'you removed this favorite',
+      result: result
+    })
+  })
+  .catch(err => next(err));
+}
+
+module.exports = { getAllSongsWithUsersGenresOrderByFavorite, getAllSongsBySpecificGenre, getAllSongsPostByOneUser, getOneSong, getAllGenres, postSong, postGenre, deleteSong, deleteGenre, getAllFavorites, getAllFavsForSpecificSong, addFavorite, deleteFavorite }
