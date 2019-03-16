@@ -1,10 +1,37 @@
 import React from 'react';
+import axios from 'axios';
+import { withRouter } from 'react-router-dom'
 
 
-export const User = () => {
-  return (
-    <div className="songsNprofile">
+class User extends React.Component {
+  state = {
+    user: []
+  }
+
+  getSingleUser() {
+    let userId = parseInt(this.props.match.params.id)
+    axios.get(`/profile/${userId}`)
+    .then(res => {
+      this.setState({
+        user: res.data.user
+      })
+    })
+    .catch(err => {
+      console.log(err, "single USER call");
+    })
+  }
+
+  componentDidMount() {
+    this.getSingleUser()
+  }
+  render() {
+    return (
+      <div className="songsNprofile">
       i am one user functional component
-    </div>
-  )
+      </div>
+    )
+  }
 }
+
+
+export default withRouter(User)
