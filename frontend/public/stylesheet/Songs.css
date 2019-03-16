@@ -71,8 +71,14 @@ hr {
   margin-bottom: 15px;
 }
 
+#userp {
+  padding-left: 122px;
+}
+
 #cominpt {
   margin-right: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 3px;
 }
 
 .songForm {
@@ -89,4 +95,8 @@ hr {
 #searchbutt {
   border-radius: 8px;
   width: 65px;
+}
+
+button {
+  border-radius: 8px;
 }

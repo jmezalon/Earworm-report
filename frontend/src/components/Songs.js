@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 class Songs extends React.Component {
@@ -16,6 +17,9 @@ class Songs extends React.Component {
     e.preventDefault()
   }
 
+  //fav button needs to change to unfavorite
+
+//need to make post request and patch request
 
 
   render() {
@@ -40,7 +44,7 @@ class Songs extends React.Component {
                   </section>
                 </span>
                 <section id="comment">
-                  <p>where will this go</p>
+                  <p>first comment</p>
                   <hr />
                 </section>
                   <section id="addcomment">
@@ -48,21 +52,13 @@ class Songs extends React.Component {
                       <input id="cominpt" type="text" />
                       <button>Add comment</button>
                     </form>
+                    <Link to={`/profile/${song.user_id}`}><p id="userp">posted by: {song.username}</p></Link>
                   </section>
               </section>
             </div>
         </div>
       )
     })
-
-    // <div>
-    //
-    //
-    //     </div>
-    //     <br/>
-    //       <div className="songlist">
-    //         {}
-    //       </div>
 
 
 
