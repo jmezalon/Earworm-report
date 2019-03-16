@@ -33,7 +33,7 @@ CREATE TABLE comments (
   id SERIAL PRIMARY KEY,
   comment TEXT NOT NULL,
   user_id INT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-  song_id INT REFERENCES songs(id) ON DELETE CASCADE
+  song_id INT REFERENCES songs(id) ON DELETE CASCADE NOT NULl
 );
 
 
@@ -108,7 +108,7 @@ INSERT INTO favorites (user_id, song_id) VALUES
 
 INSERT INTO comments (comment, user_id, song_id) VALUES
 ('best song ever', 9, 15),
-('yes I do', 1, 1),
+('yes I do', 1, 10),
 ('fok mwen marye kamen', 2, 2),
 ('good job', 5, 3),
 ('my dream song', 10, 4),

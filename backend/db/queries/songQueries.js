@@ -12,7 +12,7 @@ const getAllSongsWithUsersGenresOrderByFavorite = (req, res, next) => {
               FROM favorites
                 GROUP BY favorites.song_id) AS fv
           ON fv.song_id = s.id
-          ORDER BY fv.favorite
+          ORDER BY s.id
           DESC`)
   .then(songs => {
     res.status(200)
@@ -200,4 +200,90 @@ const deleteFavorite = (req, res, next) => {
   .catch(err => next(err));
 }
 
-module.exports = { getAllSongsWithUsersGenresOrderByFavorite, getAllSongsBySpecificGenre, getAllSongsPostByOneUser, getOneSong, getAllGenres, postSong, postGenre, deleteSong, deleteGenre, getAllFavorites, getAllFavsForSpecificSong, addFavorite, deleteFavorite }
+
+////////////comments queries
+
+const getAllComments = (req, res, next) => {
+  db.any(`SELECT * FROM comments`)
+  .then(comments => {
+    res.status(200)
+    .json({
+      status: 'success',
+      comments: comments,
+      message: 'this is all the comments'
+    })
+  })
+  .catch(err => next(err));
+
+}
+
+
+const getAllCommentsForSpecificSong = (req, res, next) => {
+  let songId = req.params.id
+  db.any(`SELECT comments.id, comments.comment,
+          users.username FROM comments
+          FULL JOIN users ON
+          comments.user_id= users.id
+          WHERE song_id=$1`, songId)
+  .then(comments => {
+    res.status(200)
+    .json({
+      status: 'success',
+      comments: comments,
+      message: 'this is all comments for this song'
+    })
+  })
+  .catch(err => next(err));
+}
+
+const updateComment = (req, res, next) => {
+  let queryStringArray = [];
+  let bodyKeys = Object.keys(req.body);
+  bodyKeys.forEach(key => {
+    queryStringArray.push(key + "=${" + key + "}");
+  });
+  let queryString = queryStringArray.join(", ")
+  db.none(
+      "UPDATE comments SET " + queryString + " WHERE id=" + req.params.id, req.body
+    )
+    .then(() => {
+      res.status(200)
+      .json({
+        status: "success",
+        message: "you updated a comment!"
+      });
+    })
+    .catch(err => next(err));
+};
+
+
+const deleteComment = (req, res, next) => {
+  let commentId = parseInt(req.params.id);
+  db.result('DELETE FROM comments WHERE id=$1', commentId)
+  .then(result => {
+    res.status(200)
+    .json({
+      status: 'success',
+      message: 'you removed this comment',
+      result: result
+    })
+  })
+  .catch(err => next(err));
+}
+
+const postComment = (req, res, next) => {
+  db.one('INSERT INTO comments (comment, user_id, song_id) VALUES(${comment}, ${user_id}, ${song_id}) RETURNING *', req.body)
+  .then((comment) => {
+    res.status(200)
+    .json({
+      status: 'success',
+      comment: comment,
+      message: 'you added a new comment'
+    })
+  })
+  .catch(err => next(err));
+}
+
+
+
+module.exports = { getAllSongsWithUsersGenresOrderByFavorite, getAllSongsBySpecificGenre, getAllSongsPostByOneUser, getOneSong, getAllGenres, postSong, postGenre, deleteSong, deleteGenre, getAllFavorites, getAllFavsForSpecificSong, addFavorite, deleteFavorite, getAllComments, getAllCommentsForSpecificSong, updateComment, deleteComment, postComment }
