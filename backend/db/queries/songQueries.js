@@ -1,7 +1,7 @@
 const { db } = require('./index.js');
 
 const getAllSongsWithUsersGenresOrderByFavorite = (req, res, next) => {
-  db.any(`SELECT s.*, fv.favorite, g.genre, u.username
+  db.any(`SELECT s.*, fv.favorite, g.genre, u.username, the_comments.all_comments
           FROM songs AS s
           FULL JOIN genres AS g
           ON s.genre_id = g.id
@@ -12,6 +12,12 @@ const getAllSongsWithUsersGenresOrderByFavorite = (req, res, next) => {
               FROM favorites
                 GROUP BY favorites.song_id) AS fv
           ON fv.song_id = s.id
+              FULL JOIN
+                (SELECT ARRAY_AGG(DISTINCT comments.comment) AS all_comments, song_id
+                    FROM comments
+                        GROUP BY comments.song_id) AS the_comments
+                        ON
+                        the_comments.song_id = s.id
           ORDER BY s.id
           DESC`)
   .then(songs => {
@@ -56,7 +62,15 @@ const getAllSongsPostByOneUser = (req, res, next) => {
 
 const getOneSong = (req, res, next) => {
   let songId = req.params.id
-  db.one(`SELECT * FROM songs WHERE id=$1`, songId)
+  db.one(`SELECT s.*, the_comments.all_comments
+FROM songs AS s
+FULL JOIN
+    (SELECT ARRAY_AGG(DISTINCT comments.comment) AS all_comments, song_id
+        FROM comments
+            GROUP BY comments.song_id) AS the_comments
+ON
+the_comments.song_id = s.id
+WHERE id=$1`, songId)
   .then(song => {
     res.status(200)
     .json({
