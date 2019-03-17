@@ -1,10 +1,28 @@
 import React from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 
 class Songs extends React.Component {
   state = {
-    searchByTitle: ""
+    searchByTitle: "",
+    favbutton: "",
+    song: {
+        fav: false
+      },
+    comments: []
+  }
+
+  getAllComments = () => {
+    axios.get('/songs/comments')
+    .then(res => {
+      this.setState({
+        comments: res.data.comments
+      })
+    })
+    .catch(err => {
+      console.log(err, "COMMENTS ERR");
+    })
   }
 
   handleChange = (e) => {
@@ -17,10 +35,40 @@ class Songs extends React.Component {
     e.preventDefault()
   }
 
+  toggleFavorite=(id) => {
+    console.log(this.state.favbutton, "FAVBUTTON");
+    let newfavid= parseInt(this.state.song.id)
+    if (this.state.song.fav && id === newfavid) {
+      this.setState({
+        favbutton: newfavid
+      })
+    }
+  }
+
+  handleClick =  (e) => {
+     const selectedSong = this.props.songs.find(song => {
+        return song.id === parseInt(e.currentTarget.dataset.song_id)
+      })
+      let favbuttons= {fav: !this.state.song.fav}
+      let newSong
+      if(selectedSong){
+        newSong = Object.assign(this.state.song, selectedSong)
+        if (selectedSong.id === parseInt(e.currentTarget.dataset.song_id)){
+          this.setState({
+            song: Object.assign(newSong, favbuttons),
+
+          })
+          this.toggleFavorite(parseInt(e.currentTarget.dataset.song_id))
+        }
+      }
+  }
+
   //fav button needs to change to unfavorite
 
 //need to make post request and patch request
-
+  componentDidMount() {
+    this.getAllComments()
+  }
 
   render() {
 
@@ -28,8 +76,22 @@ class Songs extends React.Component {
       return song.title.toLowerCase().includes(this.state.searchByTitle.toLowerCase())
     })
 
+
     let songDisplay = filteredSongs.map(song => {
+      let displayComment = this.state.comments.map(com => {
+        if(com.song_id === song.id) {
+          return (
+            <div key={com.id}>
+              <li>{com.comment}</li>
+              <hr />
+            </div>
+          )
+        } else {
+          return null
+        }
+      })
       return (
+
         <div key={song.id} className="songdisplay">
 
             <div >
@@ -40,12 +102,13 @@ class Songs extends React.Component {
                 <span className="spantitle">{song.title}
                   <section id="pfav">
                     <p id="pfav2">{song.favorite} favorites</p>
-                    <button>favorite</button>
+                    <span data-song_id={song.id} name="favbutton"  onClick={this.handleClick} style={{color: "red"}}>
+                      <i className={ song.id === this.state.favbutton && this.state.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                      </span>
                   </section>
                 </span>
                 <section id="comment">
-                  <p>first comment</p>
-                  <hr />
+                  <ul>{displayComment}</ul>
                 </section>
                   <section id="addcomment">
                     <form>
@@ -75,7 +138,6 @@ class Songs extends React.Component {
                 </div>
               </form>
         </div>
-
 
             {(this.state.searchByTitle).includes(songDisplay) === true ? <h1>NOT FOUND</h1> : songDisplay}
 
