@@ -75,7 +75,7 @@ class Profile extends Component {
 
     let favoriteDisplay = this.state.myFavorite.map(songs => {
       let displayComment = this.props.comments.map(com => {
-        if(com.song_id === songs.id) {
+        if(com.song_id === songs.song_id) {
           return (
             <div key={com.id}>
               <li>{com.comment}</li>
@@ -101,7 +101,7 @@ class Profile extends Component {
                 <span className="spantitle">{songs.title}
                   <section id="pfav">
                     <p id="pfav2">{songs.favorite} favorites</p>
-                    <span data-song_id={songs.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
+                    <span data-song_id={songs.song_id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
                       <i className={ songs.id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>

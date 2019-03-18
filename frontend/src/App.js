@@ -36,33 +36,36 @@ class App extends Component {
   }
 
   toggleFavorite=(id) => {
-    console.log(this.state.favbutton, "FAVBUTTON");
-    let newfavid= parseInt(this.state.song.id)
-    if (this.state.song.fav && id === newfavid) {
-      this.setState({
-        favbutton: newfavid
-      })
-    }
+    console.log(this.state.song.fav, "SONG FAV");
+    console.log("i'm clicked");
+
+    // let newfavid= parseInt(this.state.song.id)
+    // if (this.state.song.fav && id === newfavid) {
+    //   this.setState({
+    //     favbutton: newfavid
+    //   })
+    // }
   }
 
 
   handleClick =  (e) => {
+    console.log(parseInt(e.currentTarget.dataset.song_id), "I AM E.TARGET");
      const selectedSong = this.state.songs.find(song => {
         return song.id === parseInt(e.currentTarget.dataset.song_id)
       })
-      let favbuttons= {fav: !this.state.song.fav}
-      let newSong
+      // let favbuttons= {fav: !this.state.song.fav}
+      // let newSong
       if(selectedSong){
-        newSong = Object.assign(this.state.song, selectedSong)
-        if (selectedSong.id === parseInt(e.currentTarget.dataset.song_id)){
-          this.setState({
-            song: Object.assign(newSong, favbuttons),
-
-          })
+      //   newSong = Object.assign(this.state.song, selectedSong)
+      //   if (selectedSong.id === parseInt(e.currentTarget.dataset.song_id)){
+      //     this.setState({
+      //       song: Object.assign(newSong, favbuttons),
+      //
+      //     })
           this.toggleFavorite(parseInt(e.currentTarget.dataset.song_id))
         }
       }
-    }
+    // }
 
 
   handleSubmit = (e) => {
