@@ -21,8 +21,43 @@
 
 .on {
   background-color: gray;
+  height: 30px;
+  width: 100px;
+  color: white;
+  border-radius: 2px
 }
 
 .off {
   background-color: lavender;
+  height: 30px;
+  width: 100px;
+  color: black;
+  border-radius: 2px
+}
+
+#pro-newsong {
+  padding-bottom: 5px;
+  padding-right: 10px;
+}
+
+#titinput {
+  padding-right: 15px;
+  margin-right: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 150px
+}
+
+#urlinput {
+  padding-right: 15px;
+  margin-left: 15px;
+  margin-right: 15px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 150px
+}
+
+#imgdisp {
+  width: 150px;
+  height: 150px;
 }

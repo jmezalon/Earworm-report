@@ -16,6 +16,8 @@ import './Main.css';
 class App extends Component {
   state = {
     songs: [],
+    title: "",
+    img_url: "",
     profiles: [],
     comments: [],
     searchByTitle: "",
@@ -70,6 +72,10 @@ class App extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    this.setState({
+      title: "",
+      img_url: ""
+    })
   }
 
   getAllComments = () => {
@@ -124,7 +130,13 @@ class App extends Component {
             <Route exact path="/" component={Home}
         />
 
-            <Route exact path="/profile" render={(props) => <Profile {...props} comments={this.state.comments} favbutton={this.state.favbutton}  song={this.state.song} handleChange={this.handleChange} toggleFavorite={this.toggleFavorite} handleSubmit={this.handleSubmit} handleClick={this.handleClick}
+            <Route exact path="/profile" render={(props) => <Profile {...props}
+            comments={this.state.comments} favbutton={this.state.favbutton}
+            song={this.state.song}
+            handleChange={this.handleChange}
+            title={this.state.title}
+            img_url={this.state.img_url} toggleFavorite={this.toggleFavorite} handleSubmit={this.handleSubmit}
+            handleClick={this.handleClick}
               />}
             />
             <Route exact path="/profile/:id" render={(props) => <User {...props} profile={this.state.profiles} goBack={this.goBack}
