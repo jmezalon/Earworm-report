@@ -218,7 +218,10 @@ const deleteFavorite = (req, res, next) => {
 ////////////comments queries
 
 const getAllComments = (req, res, next) => {
-  db.any(`SELECT * FROM comments`)
+  db.any(`SELECT c.*, u.username
+            FROM comments AS c
+              JOIN users AS u
+                ON c.user_id = u.id`)
   .then(comments => {
     res.status(200)
     .json({
