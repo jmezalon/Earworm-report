@@ -47,7 +47,19 @@ const getAllSongsBySpecificGenre = (req, res, next) => {
 
 const getAllSongsPostByOneUser = (req, res, next) => {
   let userId = req.params.id
-  db.any(`SELECT * FROM songs WHERE user_id=$1`, userId)
+  db.any(`SELECT s.id, s.title, s.genre_id, s.img_url,
+            fv.favorite
+              FROM songs AS s
+                JOIN users AS u
+                ON
+                s.user_id = u.id
+              FULL JOIN
+                (SELECT COUNT(song_id) AS favorite, song_id
+                  FROM favorites
+                    GROUP BY favorites.song_id) AS fv
+ON fv.song_id = s.id
+
+WHERE user_id=$1`, userId)
   .then( songs => {
     res.status(200)
     .json({
@@ -218,10 +230,15 @@ const deleteFavorite = (req, res, next) => {
 ////////////comments queries
 
 const getAllComments = (req, res, next) => {
-  db.any(`SELECT c.*, u.username
+  db.any(`SELECT c.*, u.username, fv.favorite
             FROM comments AS c
               JOIN users AS u
-                ON c.user_id = u.id`)
+              ON c.user_id = u.id
+            FULL JOIN
+              (SELECT COUNT(user_id) AS favorite, user_id
+                FROM favorites
+                  GROUP BY favorites.user_id) AS fv
+            ON fv.user_id = u.id`)
   .then(comments => {
     res.status(200)
     .json({
@@ -237,10 +254,15 @@ const getAllComments = (req, res, next) => {
 
 const getAllCommentsForSpecificSong = (req, res, next) => {
   let songId = req.params.id
-  db.any(`SELECT comments.id, comments.comment,
-          users.username FROM comments
-          FULL JOIN users ON
-          comments.user_id= users.id
+  db.any(`SELECT c.*, u.username, fv.favorite
+            FROM comments AS c
+                JOIN users AS u
+                  ON c.user_id = u.id
+            FULL JOIN
+              (SELECT COUNT(user_id) AS favorite, user_id
+                FROM favorites
+                  GROUP BY favorites.user_id) AS fv
+            ON fv.user_id = u.id
           WHERE song_id=$1`, songId)
   .then(comments => {
     res.status(200)
