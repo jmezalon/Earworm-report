@@ -72,7 +72,7 @@ class Profile extends Component {
                 // if i have more time i'll put both of these in a seperate component to be more organize
 
     // this is for favorite
-    
+
     let favoriteDisplay = this.state.myFavorite.map(songs => {
       let displayComment = this.props.comments.map(com => {
         if(com.song_id === songs.id) {
@@ -102,7 +102,7 @@ class Profile extends Component {
                   <section id="pfav">
                     <p id="pfav2">{songs.favorite} favorites</p>
                     <span data-song_id={songs.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                      <i className={ songs.id === this.props.favbutton && this.props.songs.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                      <i className={ songs.id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
@@ -155,7 +155,7 @@ class Profile extends Component {
                   <section id="pfav">
                     <p id="pfav2">{songs.favorite} favorites</p>
                     <span data-song_id={songs.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                      <i className={ songs.id === this.props.favbutton && this.props.songs.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                      <i className={ songs.id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>

@@ -3,53 +3,6 @@ import { Link } from 'react-router-dom';
 
 
 class Songs extends React.Component {
-  state = {
-    searchByTitle: "",
-    favbutton: "",
-    song: {
-        fav: false
-      }
-  }
-
-
-
-  handleChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault()
-  }
-
-  toggleFavorite=(id) => {
-    console.log(this.state.favbutton, "FAVBUTTON");
-    let newfavid= parseInt(this.state.song.id)
-    if (this.state.song.fav && id === newfavid) {
-      this.setState({
-        favbutton: newfavid
-      })
-    }
-  }
-
-  handleClick =  (e) => {
-     const selectedSong = this.props.songs.find(song => {
-        return song.id === parseInt(e.currentTarget.dataset.song_id)
-      })
-      let favbuttons= {fav: !this.state.song.fav}
-      let newSong
-      if(selectedSong){
-        newSong = Object.assign(this.state.song, selectedSong)
-        if (selectedSong.id === parseInt(e.currentTarget.dataset.song_id)){
-          this.setState({
-            song: Object.assign(newSong, favbuttons),
-
-          })
-          this.toggleFavorite(parseInt(e.currentTarget.dataset.song_id))
-        }
-      }
-  }
 
   //fav button needs to change to unfavorite
 
@@ -60,7 +13,7 @@ class Songs extends React.Component {
   render() {
 
     let filteredSongs = this.props.songs.filter(song => {
-      return song.title.toLowerCase().includes(this.state.searchByTitle.toLowerCase())
+      return song.title.toLowerCase().includes(this.props.searchByTitle.toLowerCase())
     })
 
 
@@ -92,8 +45,8 @@ class Songs extends React.Component {
                 <span className="spantitle">{song.title}
                   <section id="pfav">
                     <p id="pfav2">{song.favorite} favorites</p>
-                    <span data-song_id={song.id} name="favbutton"  onClick={this.handleClick} style={{color: "red"}}>
-                      <i className={ song.id === this.state.favbutton && this.state.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                    <span data-song_id={song.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
+                      <i className={ song.id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
@@ -119,17 +72,17 @@ class Songs extends React.Component {
     return (
       <div className="songsNprofile">
         <div className="searchbar">
-          <form className="songForm" onSubmit={this.handleSubmit}>
+          <form className="songForm" onSubmit={this.props.handleSubmit}>
               <label htmlFor="searchByTitle">Search By Title </label>
               <div>
-                <input type="text" id="searchinput" name="searchByTitle" placeholder="Search" value={this.state.searchByTitle} onChange={this.handleChange} />
+                <input type="text" id="searchinput" name="searchByTitle" placeholder="Search" value={this.props.searchByTitle} onChange={this.props.handleChange} />
 
                   <button id="searchbutt">Search</button>
                 </div>
               </form>
         </div>
 
-            {(this.state.searchByTitle).includes(songDisplay) === true ? <h1>NOT FOUND</h1> : songDisplay}
+            {(this.props.searchByTitle).includes(songDisplay) === true ? <h1>NOT FOUND</h1> : songDisplay}
 
 
       </div>

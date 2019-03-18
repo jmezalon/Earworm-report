@@ -17,11 +17,56 @@ class App extends Component {
   state = {
     songs: [],
     profiles: [],
-    comments: []
+    comments: [],
+    searchByTitle: "",
+    favbutton: "",
+    song: {
+        fav: false
+      }
   }
 
   goBack = () => {
     this.props.history.goBack();
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  toggleFavorite=(id) => {
+    console.log(this.state.favbutton, "FAVBUTTON");
+    let newfavid= parseInt(this.state.song.id)
+    if (this.state.song.fav && id === newfavid) {
+      this.setState({
+        favbutton: newfavid
+      })
+    }
+  }
+
+
+  handleClick =  (e) => {
+     const selectedSong = this.state.songs.find(song => {
+        return song.id === parseInt(e.currentTarget.dataset.song_id)
+      })
+      let favbuttons= {fav: !this.state.song.fav}
+      let newSong
+      if(selectedSong){
+        newSong = Object.assign(this.state.song, selectedSong)
+        if (selectedSong.id === parseInt(e.currentTarget.dataset.song_id)){
+          this.setState({
+            song: Object.assign(newSong, favbuttons),
+
+          })
+          this.toggleFavorite(parseInt(e.currentTarget.dataset.song_id))
+        }
+      }
+    }
+
+
+  handleSubmit = (e) => {
+    e.preventDefault()
   }
 
   getAllComments = () => {
@@ -76,13 +121,14 @@ class App extends Component {
             <Route exact path="/" component={Home}
         />
 
-            <Route exact path="/profile" render={(props) => <Profile {...props} comments={this.state.comments} handleClick={this.handleClick} favbutton={this.state.favbutton} song={this.state.song}
+            <Route exact path="/profile" render={(props) => <Profile {...props} comments={this.state.comments} favbutton={this.state.favbutton}  song={this.state.song} handleChange={this.handleChange} toggleFavorite={this.toggleFavorite} handleSubmit={this.handleSubmit} handleClick={this.handleClick}
               />}
             />
             <Route exact path="/profile/:id" render={(props) => <User {...props} profile={this.state.profiles} goBack={this.goBack}
               />}
             />
-            <Route exact path="/songs" render={(props) => <Songs {...props} songs={this.state.songs} comments={this.state.comments}
+            <Route exact path="/songs" render={(props) => <Songs {...props} songs={this.state.songs} favbutton={this.state.favbutton} searchByTitle={this.state.searchByTitle}
+            song={this.state.song} handleChange={this.handleChange} toggleFavorite={this.toggleFavorite} handleSubmit={this.handleSubmit} handleClick={this.handleClick} comments={this.state.comments}
               />}
             />
             <Route exact path="/songs/bypop" render={(props) => <ByFav {...props}
