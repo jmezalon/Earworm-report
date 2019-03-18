@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import axios from 'axios';
 
 class Profile extends Component {
@@ -10,17 +11,16 @@ class Profile extends Component {
     favorited: false
   }
 
-  myProfileComments = () => {
-    axios.get("/songs/comments/1")
-    .then(res => {
-      debugger;
-      this.setState({
-        myProfileComments: res.data.comments
-      })
-    }).catch(err => {
-      console.log(err, "myProfile comment ERR");
-    })
-  }
+  // myProfileComments = () => {
+  //   axios.get("/songs/comments/1")
+  //   .then(res => {
+  //     this.setState({
+  //       myProfileComments: res.data.comments
+  //     })
+  //   }).catch(err => {
+  //     console.log(err, "myProfile comment ERR");
+  //   })
+  // }
 
   myProfileInfo = () => {
     axios.get("/profile/1")
@@ -63,13 +63,13 @@ class Profile extends Component {
   componentDidMount() {
     this.myProfileInfo()
     this.myProfileSongs()
-    this.myProfileComments()
+    // this.myProfileComments()
   }
 
 
   render() {
 
-    let postDisplay = myProfileSongs.map(songs => {
+    let postDisplay = this.state.myProfileSongs.map(songs => {
       let displayComment = this.props.comments.map(com => {
         if(com.song_id === songs.id) {
           return (
@@ -97,8 +97,8 @@ class Profile extends Component {
                 <span className="spantitle">{songs.title}
                   <section id="pfav">
                     <p id="pfav2">{songs.favorite} favorites</p>
-                    <span data-song_id={songs.id} name="favbutton"  onClick={this.handleClick} style={{color: "red"}}>
-                      <i className={ song.id === this.state.favbutton && this.state.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                    <span data-song_id={songs.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
+                      <i className={ songs.id === this.props.favbutton && this.props.songs.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
@@ -110,14 +110,14 @@ class Profile extends Component {
                       <input id="cominpt" type="text" />
                       <button>Add comment</button>
                     </form>
-                    <Link to={`/profile/${song.user_id}`}><p id="userp">posted by: {song.username}</p></Link>
+                    
                   </section>
               </section>
             </div>
         </div>
       )
     })
-  })
+
 
 
     return(
@@ -132,6 +132,8 @@ class Profile extends Component {
             <button onClick={this.toggleButton2} className={this.state.favorited ? "on" : "off"}>Favorited</button>
           </div>
         </form>
+
+          {postDisplay}
 
       </div>
     )

@@ -9,21 +9,10 @@ class Songs extends React.Component {
     favbutton: "",
     song: {
         fav: false
-      },
-    comments: []
+      }
   }
 
-  getAllComments = () => {
-    axios.get('/songs/comments')
-    .then(res => {
-      this.setState({
-        comments: res.data.comments
-      })
-    })
-    .catch(err => {
-      console.log(err, "COMMENTS ERR");
-    })
-  }
+
 
   handleChange = (e) => {
     this.setState({
@@ -66,9 +55,8 @@ class Songs extends React.Component {
   //fav button needs to change to unfavorite
 
 //need to make post request and patch request
-  componentDidMount() {
-    this.getAllComments()
-  }
+  // componentDidMount() {
+  // }
 
   render() {
 
@@ -78,7 +66,7 @@ class Songs extends React.Component {
 
 
     let songDisplay = filteredSongs.map(song => {
-      let displayComment = this.state.comments.map(com => {
+      let displayComment = this.props.comments.map(com => {
         if(com.song_id === song.id) {
           return (
             <div key={com.id}>

@@ -16,11 +16,24 @@ import './Main.css';
 class App extends Component {
   state = {
     songs: [],
-    profiles: []
+    profiles: [],
+    comments: []
   }
 
   goBack = () => {
     this.props.history.goBack();
+  }
+
+  getAllComments = () => {
+    axios.get('/songs/comments')
+    .then(res => {
+      this.setState({
+        comments: res.data.comments
+      })
+    })
+    .catch(err => {
+      console.log(err, "COMMENTS ERR");
+    })
   }
 
   getAllSongsWithUsersGenres() {
@@ -52,6 +65,7 @@ class App extends Component {
   componentDidMount() {
     this.getAllSongsWithUsersGenres()
     this.getAllProfilesWithFavAmount()
+    this.getAllComments()
   }
 
   render() {
@@ -62,13 +76,13 @@ class App extends Component {
             <Route exact path="/" component={Home}
         />
 
-            <Route exact path="/profile" render={(props) => <Profile {...props} comments={this.state.comments}
+            <Route exact path="/profile" render={(props) => <Profile {...props} comments={this.state.comments} handleClick={this.handleClick} favbutton={this.state.favbutton} song={this.state.song}
               />}
             />
             <Route exact path="/profile/:id" render={(props) => <User {...props} profile={this.state.profiles} goBack={this.goBack}
               />}
             />
-            <Route exact path="/songs" render={(props) => <Songs {...props} songs={this.state.songs}
+            <Route exact path="/songs" render={(props) => <Songs {...props} songs={this.state.songs} comments={this.state.comments}
               />}
             />
             <Route exact path="/songs/bypop" render={(props) => <ByFav {...props}
