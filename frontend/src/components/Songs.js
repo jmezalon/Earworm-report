@@ -83,6 +83,9 @@ class Songs extends React.Component {
           return (
             <div key={com.id}>
               <li>{com.comment}</li>
+                <ol>
+                  <Link to={`/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
+                </ol>
               <hr />
             </div>
           )

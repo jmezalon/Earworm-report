@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 
 
 class User extends React.Component {
@@ -27,6 +27,9 @@ class User extends React.Component {
   render() {
     return (
       <div className="songsNprofile">
+      <div className="backbutton">
+        <Link to="#" onClick={this.props.goBack}><p>Go back</p></Link>
+      </div>
       i am one user functional component
       </div>
     )

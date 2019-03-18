@@ -1,0 +1,12 @@
+.postnfav {
+  display: flex;
+  justify-content: space-around;
+}
+
+.on {
+  background-color: gray;
+}
+
+.off {
+  background-color: lavender;
+}

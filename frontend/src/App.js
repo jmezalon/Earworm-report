@@ -19,6 +19,10 @@ class App extends Component {
     profiles: []
   }
 
+  goBack = () => {
+    this.props.history.goBack();
+  }
+
   getAllSongsWithUsersGenres() {
     axios.get('/songs')
     .then(res => {
@@ -58,10 +62,10 @@ class App extends Component {
             <Route exact path="/" component={Home}
         />
 
-            <Route exact path="/profile" render={(props) => <Profile {...props}
+            <Route exact path="/profile" render={(props) => <Profile {...props} comments={this.state.comments}
               />}
             />
-            <Route exact path="/profile/:id" render={(props) => <User {...props} profile={this.state.profiles}
+            <Route exact path="/profile/:id" render={(props) => <User {...props} profile={this.state.profiles} goBack={this.goBack}
               />}
             />
             <Route exact path="/songs" render={(props) => <Songs {...props} songs={this.state.songs}
