@@ -59,7 +59,9 @@ const getAllSongsPostByOneUser = (req, res, next) => {
                     GROUP BY favorites.song_id) AS fv
 ON fv.song_id = s.id
 
-WHERE user_id=$1`, userId)
+WHERE user_id=$1
+ORDER BY s.id
+DESC`, userId)
   .then( songs => {
     res.status(200)
     .json({
