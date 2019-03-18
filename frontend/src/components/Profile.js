@@ -7,20 +7,21 @@ class Profile extends Component {
     myProfile: "",
     myProfileComments: [],
     myProfileSongs: [],
+    myFavorite: [],
     posted: true,
-    favorited: false
+    favorited: false,
   }
 
-  // myProfileComments = () => {
-  //   axios.get("/songs/comments/1")
-  //   .then(res => {
-  //     this.setState({
-  //       myProfileComments: res.data.comments
-  //     })
-  //   }).catch(err => {
-  //     console.log(err, "myProfile comment ERR");
-  //   })
-  // }
+  myFavSongList = () => {
+    axios.get("/profile/bypop/1")
+    .then(res => {
+      this.setState({
+        myFavorite: res.data.favorites
+      })
+    }).catch(err => {
+      console.log(err, "myProfile comment ERR");
+    })
+  }
 
   myProfileInfo = () => {
     axios.get("/profile/1")
@@ -63,11 +64,67 @@ class Profile extends Component {
   componentDidMount() {
     this.myProfileInfo()
     this.myProfileSongs()
-    // this.myProfileComments()
+    this.myFavSongList()
   }
 
 
   render() {
+                // if i have more time i'll put both of these in a seperate component to be more organize
+
+    // this is for favorite
+    
+    let favoriteDisplay = this.state.myFavorite.map(songs => {
+      let displayComment = this.props.comments.map(com => {
+        if(com.song_id === songs.id) {
+          return (
+            <div key={com.id}>
+              <li>{com.comment}</li>
+                <ol>
+                  <Link to={`/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
+                </ol>
+              <hr />
+            </div>
+          )
+        } else {
+          return null
+        }
+      })
+      return (
+
+        <div key={songs.id} className="songdisplay">
+
+            <div >
+              <img className="songimg" alt="" src={songs.img_url} />
+            </div>
+            <div>
+              <section className="spansec">
+                <span className="spantitle">{songs.title}
+                  <section id="pfav">
+                    <p id="pfav2">{songs.favorite} favorites</p>
+                    <span data-song_id={songs.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
+                      <i className={ songs.id === this.props.favbutton && this.props.songs.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                      </span>
+                  </section>
+                </span>
+                <section id="comment">
+                  <ul>{displayComment}</ul>
+                </section>
+                  <section id="addcomment">
+                    <form>
+                      <input id="cominpt" type="text" />
+                      <button>Add comment</button>
+                    </form>
+
+                  </section>
+              </section>
+            </div>
+        </div>
+      )
+    })
+
+
+
+    // this is for post
 
     let postDisplay = this.state.myProfileSongs.map(songs => {
       let displayComment = this.props.comments.map(com => {
@@ -110,7 +167,7 @@ class Profile extends Component {
                       <input id="cominpt" type="text" />
                       <button>Add comment</button>
                     </form>
-                    
+
                   </section>
               </section>
             </div>
@@ -123,7 +180,7 @@ class Profile extends Component {
     return(
       <div className="myprofile">
         <div>
-          {!this.state.myProfile ? <h1>Loading...</h1> : <h1>{this.state.myProfile.username}</h1>}
+          {!this.state.myProfile ? <h1>Loading...</h1> : <h1 id="protitle">{this.state.myProfile.username}</h1>}
         </div>
 
         <form>
@@ -133,7 +190,7 @@ class Profile extends Component {
           </div>
         </form>
 
-          {postDisplay}
+          {this.state.posted ? postDisplay : favoriteDisplay}
 
       </div>
     )

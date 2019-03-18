@@ -179,6 +179,7 @@ const getAllFavorites = (req, res, next) => {
   .catch(err => next(err));
 }
 
+
 const getAllFavsForSpecificSong = (req, res, next) => {
   let songId = req.params.id
   db.any(`SELECT f.id, u.id, u.username
