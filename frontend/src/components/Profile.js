@@ -4,12 +4,52 @@ import axios from 'axios';
 
 class Profile extends Component {
   state = {
+    title: "",
+    genreSelect: "",
+    img_url: "",
     myProfile: "",
     myProfileComments: [],
     myProfileSongs: [],
     myFavorite: [],
     posted: true,
     favorited: false,
+  }
+
+
+  postNewSong = () => {
+    let song = {
+      title: this.state.title,
+      img_url: this.state.img_url,
+      user_id: 1,
+      genre_id: parseInt(this.state.genreSelect)
+    }
+    axios.post('/songs', song)
+    .then(res => {
+      this.setState({
+        myProfileSongs: [res.data.song, ...this.state.myProfileSongs]
+      })
+      this.myProfileSongs()
+    })
+    .catch(err => {
+      console.log(err, "posting music err");
+    })
+  }
+
+  handleSubmit = async (e) => {
+    e.preventDefault()
+    await this.postNewSong()
+    await this.setState({
+      title: "",
+      img_url: "",
+      genreSelect: ""
+    })
+    this.myProfileSongs()
+  }
+
+  handleProfileChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
   }
 
   myFavSongList = () => {
@@ -175,6 +215,9 @@ class Profile extends Component {
       )
     })
 
+    let genreSelections = this.props.genres.map(genre => {
+      return <option key={genre.id} value={genre.id}>{genre.genre}</option>
+    })
 
 
     return(
@@ -193,14 +236,18 @@ class Profile extends Component {
             this.state.posted
             ?
             <div>
-              <form onSubmit={this.props.handleSubmit}>
+              <form onSubmit={this.handleSubmit}>
                 <div id="pro-newsong">
                   <h4>Add a New Song</h4>
-                  <input id="titinput" type="text" name="title" onChange={this.props.handleChange} value={this.props.title} placeholder="add title" />
-                  <input id="urlinput" type="text" name="img_url" onChange={this.props.handleChange} value={this.props.img_url} placeholder="add imgage URL" />
+                  <input id="titinput" type="text" name="title" onChange={this.handleProfileChange} value={this.state.title} placeholder="add title" />
+                  <input id="urlinput" type="text" name="img_url" onChange={this.handleProfileChange} value={this.state.img_url} placeholder="add imgage URL" />
+                  <select name="genreSelect" id="genselect" value={this.state.genreSelect} onChange={this.handleProfileChange}>
+                    <option value="clear"> --Select A Genre-- </option>
+                    {genreSelections}
+                  </select>
                   <button>add</button>
-                  <p>{this.props.title}</p>
-                  <img id="imgdisp" alt="" src={this.props.img_url} />
+                  <p>{this.state.title}</p>
+                  <img id="imgdisp" alt="" src={this.state.img_url} />
                 </div>
               </form>
             </div>

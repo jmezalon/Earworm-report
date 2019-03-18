@@ -16,8 +16,8 @@ import './Main.css';
 class App extends Component {
   state = {
     songs: [],
-    title: "",
-    img_url: "",
+
+    genres: [],
     profiles: [],
     comments: [],
     searchByTitle: "",
@@ -49,6 +49,17 @@ class App extends Component {
     // }
   }
 
+  //this is all the handles
+
+  handleSelect = async (e) => {
+    await this.setState({
+      [e.target.name] : e.target.value
+    })
+    // if (this.state.genreSelect !== "clear") {
+    //   this.getAllMoviesBySpecificGenre()
+    // }
+  }
+
 
   handleClick =  (e) => {
     console.log(parseInt(e.currentTarget.dataset.song_id), "I AM E.TARGET");
@@ -70,13 +81,21 @@ class App extends Component {
     // }
 
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    this.setState({
-      title: "",
-      img_url: ""
+
+
+
+
+////this is all the gets request
+
+  getAllGenres = () => {
+    axios.get("/songs/bygen")
+    .then(res => {
+      this.setState({
+        genres: res.data.genres
+      })
     })
   }
+
 
   getAllComments = () => {
     axios.get('/songs/comments')
@@ -115,11 +134,14 @@ class App extends Component {
   }
 
 
+  //// this is all the post request
+
 
   componentDidMount() {
     this.getAllSongsWithUsersGenres()
     this.getAllProfilesWithFavAmount()
     this.getAllComments()
+    this.getAllGenres()
   }
 
   render() {
@@ -133,10 +155,10 @@ class App extends Component {
             <Route exact path="/profile" render={(props) => <Profile {...props}
             comments={this.state.comments} favbutton={this.state.favbutton}
             song={this.state.song}
-            handleChange={this.handleChange}
-            title={this.state.title}
-            img_url={this.state.img_url} toggleFavorite={this.toggleFavorite} handleSubmit={this.handleSubmit}
+            handleSelect={this.handleSelect}
+            toggleFavorite={this.toggleFavorite}
             handleClick={this.handleClick}
+            genres={this.state.genres}
               />}
             />
             <Route exact path="/profile/:id" render={(props) => <User {...props} profile={this.state.profiles} goBack={this.goBack}
