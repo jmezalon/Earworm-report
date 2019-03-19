@@ -24,7 +24,17 @@ class App extends Component {
     favbutton: "",
     song: {
         fav: false
-      }
+      },
+
+    title: "",
+    img_url: "",
+    genreSelect: "",
+    myProfileSongs: [],
+    myFavorite: [],
+    myFavSongList: [],
+    myProfile: []
+
+
   }
 
   goBack = () => {
@@ -134,14 +144,82 @@ class App extends Component {
   }
 
 
-  //// this is all the post request
+  //// this is all the post request and profile display
+  handleSubmit = async (e) => {
+    e.preventDefault()
+    await this.postNewSong()
+    await this.setState({
+      title: "",
+      img_url: "",
+      genreSelect: ""
+    })
+    this.getMyProfileSongs()
+    this.getAllSongsWithUsersGenres()
+  }
 
+  getMyProfileSongs = () => {
+    axios.get("/songs/user/1")
+    .then(res => {
+      this.setState({
+        myProfileSongs: res.data.songs
+      })
+    }).catch(err => {
+      console.log(err, "myProfile Song ERR");
+    })
+  }
+
+  getMyFavSongList = () => {
+    axios.get("/profile/bypop/1")
+    .then(res => {
+      this.setState({
+        myFavorite: res.data.favorites
+      })
+    }).catch(err => {
+      console.log(err, "myProfile comment ERR");
+    })
+  }
+
+  getMyProfileInfo = () => {
+    axios.get("/profile/1")
+    .then(res => {
+      this.setState({
+        myProfile: res.data.user
+      })
+    }).catch(err => {
+      console.log(err, "myProfileERR");
+    })
+  }
+
+
+  postNewSong = () => {
+    let song = {
+      title: this.state.title,
+      img_url: this.state.img_url,
+      user_id: 1,
+      genre_id: parseInt(this.state.genreSelect)
+    }
+    axios.post('/songs', song)
+    .then(res => {
+      this.setState({
+        myProfileSongs: [res.data.song, ...this.state.myProfileSongs],
+        songs: [res.data.song, ...this.state.songs]
+      })
+      this.myProfileSongs()
+      this.getAllSongsWithUsersGenres()
+    })
+    .catch(err => {
+      console.log(err, "posting music err");
+    })
+  }
 
   componentDidMount() {
     this.getAllSongsWithUsersGenres()
     this.getAllProfilesWithFavAmount()
     this.getAllComments()
     this.getAllGenres()
+    this.getMyProfileInfo()
+    this.getMyProfileSongs()
+    this.getMyFavSongList()
   }
 
   render() {
@@ -159,6 +237,19 @@ class App extends Component {
             toggleFavorite={this.toggleFavorite}
             handleClick={this.handleClick}
             genres={this.state.genres}
+
+            title={this.state.title}
+            img_url={this.state.img_url}
+            songs={this.state.songs}
+            genreSelect={this.state.genreSelect}
+            myFavorite={this.state.myFavorite}
+            myProfile={this.state.myProfile}
+            myProfileSongs={this.state.myProfileSongs}
+            getMyProfileInfo={this.getMyProfileInfo}
+            getMyProfileSongs={this.getMyProfileSongs}
+            getMyFavSongList={this.getMyFavSongList}
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
               />}
             />
             <Route exact path="/profile/:id" render={(props) => <User {...props} profile={this.state.profiles} goBack={this.goBack}

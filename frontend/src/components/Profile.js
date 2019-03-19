@@ -4,86 +4,26 @@ import axios from 'axios';
 
 class Profile extends Component {
   state = {
-    title: "",
-    genreSelect: "",
-    img_url: "",
-    myProfile: "",
-    myProfileComments: [],
-    myProfileSongs: [],
-    myFavorite: [],
+
     posted: true,
     favorited: false,
   }
 
 
-  postNewSong = () => {
-    let song = {
-      title: this.state.title,
-      img_url: this.state.img_url,
-      user_id: 1,
-      genre_id: parseInt(this.state.genreSelect)
-    }
-    axios.post('/songs', song)
-    .then(res => {
-      this.setState({
-        myProfileSongs: [res.data.song, ...this.state.myProfileSongs]
-      })
-      this.myProfileSongs()
-    })
-    .catch(err => {
-      console.log(err, "posting music err");
-    })
-  }
 
-  handleSubmit = async (e) => {
-    e.preventDefault()
-    await this.postNewSong()
-    await this.setState({
-      title: "",
-      img_url: "",
-      genreSelect: ""
-    })
-    this.myProfileSongs()
-  }
 
-  handleProfileChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
 
-  myFavSongList = () => {
-    axios.get("/profile/bypop/1")
-    .then(res => {
-      this.setState({
-        myFavorite: res.data.favorites
-      })
-    }).catch(err => {
-      console.log(err, "myProfile comment ERR");
-    })
-  }
+  // handleProfileChange = (e) => {
+  //   this.setState({
+  //     [e.target.name]: e.target.value
+  //   })
+  // }
 
-  myProfileInfo = () => {
-    axios.get("/profile/1")
-    .then(res => {
-      this.setState({
-        myProfile: res.data.user
-      })
-    }).catch(err => {
-      console.log(err, "myProfileERR");
-    })
-  }
 
-  myProfileSongs = () => {
-    axios.get("/songs/user/1")
-    .then(res => {
-      this.setState({
-        myProfileSongs: res.data.songs
-      })
-    }).catch(err => {
-      console.log(err, "myProfile Song ERR");
-    })
-  }
+
+
+
+
 
   toggleButton = (e) => {
     e.preventDefault()
@@ -101,11 +41,7 @@ class Profile extends Component {
     })
   }
 
-  componentDidMount() {
-    this.myProfileInfo()
-    this.myProfileSongs()
-    this.myFavSongList()
-  }
+
 
 
   render() {
@@ -113,7 +49,7 @@ class Profile extends Component {
 
     // this is for favorite
 
-    let favoriteDisplay = this.state.myFavorite.map(songs => {
+    let favoriteDisplay = this.props.myFavorite.map(songs => {
       let displayComment = this.props.comments.map(com => {
         if(com.song_id === songs.song_id) {
           return (
@@ -166,7 +102,7 @@ class Profile extends Component {
 
     // this is for post
 
-    let postDisplay = this.state.myProfileSongs.map(songs => {
+    let postDisplay = this.props.myProfileSongs.map(songs => {
       let displayComment = this.props.comments.map(com => {
         if(com.song_id === songs.id) {
           return (
@@ -223,7 +159,7 @@ class Profile extends Component {
     return(
       <div className="myprofile">
         <div>
-          {!this.state.myProfile ? <h1>Loading...</h1> : <h1 id="protitle">{this.state.myProfile.username}</h1>}
+          {!this.props.myProfile ? <h1>Loading...</h1> : <h1 id="protitle">{this.props.myProfile.username}</h1>}
         </div>
 
 
@@ -236,18 +172,18 @@ class Profile extends Component {
             this.state.posted
             ?
             <div>
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={this.props.handleSubmit}>
                 <div id="pro-newsong">
                   <h4>Add a New Song</h4>
-                  <input id="titinput" type="text" name="title" onChange={this.handleProfileChange} value={this.state.title} placeholder="add title" />
-                  <input id="urlinput" type="text" name="img_url" onChange={this.handleProfileChange} value={this.state.img_url} placeholder="add imgage URL" />
-                  <select name="genreSelect" id="genselect" value={this.state.genreSelect} onChange={this.handleProfileChange}>
+                  <input id="titinput" type="text" name="title" onChange={this.props.handleChange} value={this.props.title} placeholder="add title" />
+                  <input id="urlinput" type="text" name="img_url" onChange={this.props.handleChange} value={this.props.img_url} placeholder="add imgage URL" />
+                  <select name="genreSelect" id="genselect" value={this.props.genreSelect} onChange={this.props.handleChange}>
                     <option value="clear"> --Select A Genre-- </option>
                     {genreSelections}
                   </select>
                   <button>add</button>
-                  <p>{this.state.title}</p>
-                  <img id="imgdisp" alt="" src={this.state.img_url} />
+                  <p>{this.props.title}</p>
+                  <img id="imgdisp" alt="" src={this.props.img_url} />
                 </div>
               </form>
             </div>
