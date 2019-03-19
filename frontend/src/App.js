@@ -3,7 +3,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 
 import { Navbar } from './components/Navbar';
 import { Home } from './components/Home';
-import User from './components/User';
+import User from './components/users/User';
 import { ByFav } from './components/ByFav';
 import { ByGen } from './components/ByGen';
 import Songs from './components/Songs';
@@ -248,11 +248,18 @@ class App extends Component {
             getMyProfileInfo={this.getMyProfileInfo}
             getMyProfileSongs={this.getMyProfileSongs}
             getMyFavSongList={this.getMyFavSongList}
-            handleSubmit={this.handleSubmit}
             handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
               />}
             />
-            <Route exact path="/profile/:id" render={(props) => <User {...props} profile={this.state.profiles} goBack={this.goBack}
+            <Route exact path="/profile/:id" render={(props) => <User {...props} profiles={this.state.profiles} goBack={this.goBack}
+            comments={this.state.comments} favbutton={this.state.favbutton}
+            song={this.state.song}
+            handleSelect={this.handleSelect}
+            toggleFavorite={this.toggleFavorite}
+            handleClick={this.handleClick}
+            genres={this.state.genres}
+
               />}
             />
             <Route exact path="/songs" render={(props) => <Songs {...props} songs={this.state.songs} favbutton={this.state.favbutton} searchByTitle={this.state.searchByTitle}
