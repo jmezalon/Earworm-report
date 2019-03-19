@@ -24,7 +24,7 @@ class Songs extends React.Component {
             <div key={com.id}>
               <li>{com.comment}</li>
                 <ol>
-                  <Link to={`/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
+                  <Link to={com.user_id === 1 ? `/profile` : `/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
                 </ol>
               <hr />
             </div>
@@ -58,7 +58,7 @@ class Songs extends React.Component {
                       <input id="cominpt" type="text" />
                       <button>Add comment</button>
                     </form>
-                    <Link to={`/profile/${song.user_id}`}><p id="userp">posted by: {song.username}</p></Link>
+                    <Link to={song.user_id === 1 ? `/profile` :`/profile/${song.user_id}`}><p id="userp">posted by: {song.username}</p></Link>
                   </section>
               </section>
             </div>

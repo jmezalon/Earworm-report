@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import axios from 'axios';
 
 class Profile extends Component {
   state = {
@@ -56,7 +55,7 @@ class Profile extends Component {
             <div key={com.id}>
               <li>{com.comment}</li>
                 <ol>
-                  <Link to={`/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
+                  <Link to={com.user_id === 1 ? `/profile` : `/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
                 </ol>
               <hr />
             </div>
@@ -109,7 +108,7 @@ class Profile extends Component {
             <div key={com.id}>
               <li>{com.comment}</li>
                 <ol>
-                  <Link to={`/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
+                  <Link to={com.user_id === 1 ? `/profile` : `/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
                 </ol>
               <hr />
             </div>
