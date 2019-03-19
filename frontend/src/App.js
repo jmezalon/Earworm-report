@@ -9,11 +9,31 @@ import { ByGen } from './components/ByGen';
 import Songs from './components/Songs';
 import Profile from './components/Profile';
 
+/*
+
+class YourCompoment extends Component {
+  hasUnmounted = false;
+
+  componentDidMount() {
+    fetch(url).then(resp => {
+      if (this.hasUnmounted) {
+        // check hasUnmounted flag
+        return;
+      }
+      this.setState({ resp });
+    });
+  }
+}
+
+export default withUnmounted(YourCompoment);
+
+*/
 
 import axios from 'axios';
 import './Main.css';
 
 class App extends Component {
+  _hasUnmounted = false;
   state = {
     songs: [],
 
@@ -175,7 +195,7 @@ class App extends Component {
         myFavorite: res.data.favorites
       })
     }).catch(err => {
-      console.log(err, "myProfile comment ERR");
+      console.log(err, "myProfile song list ERR");
     })
   }
 
@@ -204,7 +224,7 @@ class App extends Component {
         myProfileSongs: [res.data.song, ...this.state.myProfileSongs],
         songs: [res.data.song, ...this.state.songs]
       })
-      this.myProfileSongs()
+      this.getMyProfileSongs()
       this.getAllSongsWithUsersGenres()
     })
     .catch(err => {
@@ -220,6 +240,10 @@ class App extends Component {
     this.getMyProfileInfo()
     this.getMyProfileSongs()
     this.getMyFavSongList()
+    this._isMounted = true;
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

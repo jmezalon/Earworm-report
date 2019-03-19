@@ -1,18 +1,19 @@
 import React from 'react';
+import { Link, withRouter } from "react-router-dom";
 
 
-export const UserDisplay = () => {
+export const UserDisplay = ({ posted, handleCommentClick, userSongs, userFav, comments, handleClick, favbutton, song }) => {
 
-/*
+
   //post display
-  let postDisplay = this.props.myProfileSongs.map(songs => {
-    let displayComment = this.props.comments.map(com => {
+  let postDisplay = userSongs.map(songs => {
+    let displayComment = comments.map(com => {
       if(com.song_id === songs.id) {
         return (
           <div key={com.id}>
             <li>{com.comment}</li>
               <ol>
-                <Link to={com.user_id === 1 ? `/profile` : `/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
+                <Link onClick={handleCommentClick} to={`/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
               </ol>
             <hr />
           </div>
@@ -33,8 +34,8 @@ export const UserDisplay = () => {
               <span className="spantitle">{songs.title}
                 <section id="pfav">
                   <p id="pfav2">{songs.favorite} favorites</p>
-                  <span data-song_id={songs.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                    <i className={ songs.id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                  <span data-song_id={songs.id} name="favbutton"  onClick={handleClick} style={{color: "red"}}>
+                    <i className={ songs.id === favbutton && song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
                     </span>
                 </section>
               </span>
@@ -54,21 +55,16 @@ export const UserDisplay = () => {
     )
   })
 
-  let genreSelections = this.props.genres.map(genre => {
-    return <option key={genre.id} value={genre.id}>{genre.genre}</option>
-  })
-
-
-
   // favorite display
-  let favoriteDisplay = this.props.myFavorite.map(songs => {
-    let displayComment = this.props.comments.map(com => {
+
+  let favoriteDisplay = userFav.map(songs => {
+    let displayComment = comments.map(com => {
       if(com.song_id === songs.song_id) {
         return (
           <div key={com.id}>
             <li>{com.comment}</li>
               <ol>
-                <Link to={com.user_id === 1 ? `/profile` : `/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
+                <Link onClick={handleCommentClick} to={`/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
               </ol>
             <hr />
           </div>
@@ -89,8 +85,8 @@ export const UserDisplay = () => {
               <span className="spantitle">{songs.title}
                 <section id="pfav">
                   <p id="pfav2">{songs.favorite} favorites</p>
-                  <span data-song_id={songs.song_id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                    <i className={ songs.id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                  <span data-song_id={songs.song_id} name="favbutton"  onClick={handleClick} style={{color: "red"}}>
+                    <i className={ songs.id === favbutton && song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
                     </span>
                 </section>
               </span>
@@ -110,13 +106,15 @@ export const UserDisplay = () => {
     )
   })
 
-*/
+
 
   return (
     <div className="userprofile">
 
-      am I working?
+      {posted ? postDisplay : favoriteDisplay}
 
     </div>
   )
 }
+
+export default withRouter(UserDisplay)
