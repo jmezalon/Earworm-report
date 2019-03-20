@@ -5,13 +5,11 @@ import { withRouter, Redirect, Link } from 'react-router-dom'
 
 
 class User extends React.Component {
-  _isMounted = false;
   state = {
-    user: [],
     userFav: [],
     userSongs:[],
-    posted: true,
-    favorited: false,
+    posted2: true,
+    favorited2: false,
   }
 
 
@@ -19,26 +17,30 @@ class User extends React.Component {
 
   getUserFavSongList = (id) => {
     // let userId = parseInt(this.props.match.params.id)
-    axios.get(`/profile/bypop/${id}`)
-    .then(res => {
-      this.setState({
-        userFav: res.data.favorites
+    if(parseInt(id) !== 1) {
+      axios.get(`/profile/bypop/${id}`)
+      .then(res => {
+          this.setState({
+            userFav: res.data.favorites
+          })
+      }).catch(err => {
+        console.log(err, "myProfile song list ERR");
       })
-    }).catch(err => {
-      console.log(err, "myProfile song list ERR");
-    })
+    }
   }
 
   getUserSongs = (id) => {
     // let userId = parseInt(this.props.match.params.id)
-    axios.get(`/songs/user/${id}`)
-    .then(res => {
-      this.setState({
-        userSongs: res.data.songs
+    if (parseInt(id) !== 1) {
+      axios.get(`/songs/user/${id}`)
+      .then(res => {
+          this.setState({
+            userSongs: res.data.songs
+          })
+      }).catch(err => {
+        console.log(err, "myProfile Song ERR");
       })
-    }).catch(err => {
-      console.log(err, "myProfile Song ERR");
-    })
+    }
   }
 
   // getSingleUser(id) {
@@ -57,17 +59,17 @@ class User extends React.Component {
 
   // toggle post and favorite buttons
 
-  toggleButton = () => {
+  toggleButton4 = () => {
     this.setState({
-      posted: true,
-      favorited: false
+      posted2: true,
+      favorited2: false
     })
   }
 
-  toggleButton2 = () => {
+  toggleButton3 = () => {
     this.setState({
-      posted: false,
-      favorited: true
+      posted2: false,
+      favorited2: true
     })
   }
 
@@ -75,29 +77,27 @@ class User extends React.Component {
 
   handleCommentClick = async () => {
 
-      await this.toggleButton()
-      this.getUserSongs(parseInt(this.props.match.params.id))
-      this.getUserFavSongList(parseInt(this.props.match.params.id))
+        await this.toggleButton4()
+
+        this.getUserSongs(parseInt(this.props.match.params.id))
+        this.getUserFavSongList(parseInt(this.props.match.params.id))
 
   }
 
 
 
   componentDidMount() {
-    this._isMounted = true;
     // this.getSingleUser(parseInt(this.props.match.params.id))
-    if (parseInt(this.props.match.params.id)) {
+    if (parseInt(this.props.match.params.id) !== 1) {
       this.getUserSongs(parseInt(this.props.match.params.id))
       this.getUserFavSongList(parseInt(this.props.match.params.id))
+    } else {
+      return null
     }
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
 
   render() {
-    console.log(this.props.match.params.id);
     let userProfile;
     if (this.props.profiles) {
       userProfile = this.props.profiles.filter(profile => {
@@ -114,14 +114,14 @@ class User extends React.Component {
         <div className="backbutton">
           <Link to="#" onClick={this.props.goBack}><p>Go back</p></Link>
         </div>
-        {parseInt(this.props.match.params.id) === 1 ? <Redirect to="/profile" /> :""}
+        {parseInt(this.props.match.params.id) === 1 ? <Redirect to="/profile" /> : null}
         <div className="username">
           {!this.props.profiles ? <h1>Loading...</h1> : profileDisplay}
         </div>
 
         <div className="postnfav">
-          <button onClick={this.toggleButton} className={ this.state.posted ? "on" : "off"}>Posted</button>
-          <button onClick={this.toggleButton2} className={this.state.favorited ? "on" : "off"}>Favorited</button>
+          <button onClick={this.toggleButton4} className={ this.state.posted2 ? "on" : "off"}>posted</button>
+          <button onClick={this.toggleButton3} className={this.state.favorited2 ? "on" : "off"}>favorited</button>
         </div>
 
         <UserDisplay
@@ -137,8 +137,7 @@ class User extends React.Component {
         userFav={this.state.userFav}
         userSongs={this.state.userSongs}
 
-        posted={this.state.posted}
-        favorited={this.state.favorited}
+        posted2={this.state.posted2}
 
         />
 

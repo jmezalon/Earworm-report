@@ -9,31 +9,12 @@ import { ByGen } from './components/ByGen';
 import Songs from './components/Songs';
 import Profile from './components/Profile';
 
-/*
-
-class YourCompoment extends Component {
-  hasUnmounted = false;
-
-  componentDidMount() {
-    fetch(url).then(resp => {
-      if (this.hasUnmounted) {
-        // check hasUnmounted flag
-        return;
-      }
-      this.setState({ resp });
-    });
-  }
-}
-
-export default withUnmounted(YourCompoment);
-
-*/
 
 import axios from 'axios';
 import './Main.css';
 
 class App extends Component {
-  _hasUnmounted = false;
+  _isMounted = false;
   state = {
     songs: [],
 
@@ -240,11 +221,9 @@ class App extends Component {
     this.getMyProfileInfo()
     this.getMyProfileSongs()
     this.getMyFavSongList()
-    this._isMounted = true;
+
   }
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+  
 
   render() {
     return (

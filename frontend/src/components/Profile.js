@@ -56,7 +56,7 @@ class Profile extends Component {
             <div key={com.id}>
               <li>{com.comment}</li>
                 <ol>
-                  <Link to={com.user_id === 1 ? `/profile` : `/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
+                  <Link to={`/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
                 </ol>
               <hr />
             </div>
@@ -109,7 +109,7 @@ class Profile extends Component {
             <div key={com.id}>
               <li>{com.comment}</li>
                 <ol>
-                  <Link to={com.user_id === 1 ? `/profile` : `/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
+                  <Link to={`/profile/${com.user_id}`}><li id="olli">{com.username}</li></Link>
                 </ol>
               <hr />
             </div>

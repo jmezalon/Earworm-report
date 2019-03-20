@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 
 
-export const UserDisplay = ({ posted, handleCommentClick, userSongs, userFav, comments, handleClick, favbutton, song }) => {
+export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, comments, handleClick, favbutton, song }) => {
 
 
   //post display
@@ -57,7 +57,7 @@ export const UserDisplay = ({ posted, handleCommentClick, userSongs, userFav, co
 
   // favorite display
 
-  let favoriteDisplay = userFav.map(songs => {
+  let favoritedDisplay = userFav.map(songs => {
     let displayComment = comments.map(com => {
       if(com.song_id === songs.song_id) {
         return (
@@ -111,7 +111,7 @@ export const UserDisplay = ({ posted, handleCommentClick, userSongs, userFav, co
   return (
     <div className="userprofile">
 
-      {posted ? postDisplay : favoriteDisplay}
+      {posted2 ? postDisplay : favoritedDisplay}
 
     </div>
   )
