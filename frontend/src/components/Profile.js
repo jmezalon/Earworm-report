@@ -159,7 +159,7 @@ class Profile extends Component {
     return(
       <div className="myprofile">
         <div>
-          {!this.props.myProfile ? <h1>Loading...</h1> : <h1 id="protitle">{this.props.myProfile.username}</h1>}
+          {!this.props.myProfile.username ? <h1>Loading...</h1> : <h1 id="protitle">{this.props.myProfile.username}</h1>}
         </div>
 
 

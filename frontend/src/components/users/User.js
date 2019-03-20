@@ -116,7 +116,7 @@ class User extends React.Component {
         </div>
         {parseInt(this.props.match.params.id) === 1 ? <Redirect to="/profile" /> : null}
         <div className="username">
-          {!this.props.profiles ? <h1>Loading...</h1> : profileDisplay}
+          {!this.state.userSongs.length ? <h1>Loading...</h1> : profileDisplay}
         </div>
 
         <div className="postnfav">
