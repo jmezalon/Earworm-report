@@ -1,3 +1,8 @@
+// This page is coming along nicely. Very pleased
+// that I could add a song.
+// Still need comments and favs though. Also, on
+// the new song it should say 0 favorites. 
+
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
