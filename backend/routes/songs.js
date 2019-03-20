@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const { getAllSongsWithUsersGenresOrderByFavorite, getAllSongsBySpecificGenre, getAllFavorites, getAllFavsForSpecificSong, getAllSongsPostByOneUser, getOneSong, getAllGenres, postSong, postGenre, deleteSong, deleteGenre, addFavorite, deleteFavorite, getAllComments, getAllCommentsForSpecificSong, postComment, updateComment, deleteComment } = require('../db/queries/songQueries.js');
+// please keep your routes consistent. comments should be
+// plural. Comments could also have their own route file (not required to change, just be aware).
 
 
 router.get('/', getAllSongsWithUsersGenresOrderByFavorite);

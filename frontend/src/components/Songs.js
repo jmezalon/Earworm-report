@@ -1,3 +1,13 @@
+// Search should only filter upon submit no on change.
+// I need to still have the ability to fav / unFav a song.
+// Was unable to leave a comment. Page refreshes. Please fix.
+// Still missing all display and functionality for
+// the other song components.
+
+// Your project is coming along nicely though and
+// has a very clean console :-). Keep it up! 
+
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
