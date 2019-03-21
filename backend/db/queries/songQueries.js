@@ -81,7 +81,7 @@ const getAllSongsBySpecificGenre = (req, res, next) => {
 
 const getAllSongsPostByOneUser = (req, res, next) => {
   let userId = req.params.id
-  db.any(`SELECT s.id, s.title, s.genre_id, s.img_url,
+  db.any(`SELECT s.id, s.title, cm.comment as comment, s.genre_id, s.img_url,
             fv.favorite
               FROM songs AS s
                 JOIN users AS u
@@ -92,6 +92,12 @@ const getAllSongsPostByOneUser = (req, res, next) => {
                   FROM favorites
                     GROUP BY favorites.song_id) AS fv
 ON fv.song_id = s.id
+
+FULL JOIN
+  (SELECT COUNT(song_id) AS comment, song_id
+    FROM comments
+      GROUP BY comments.song_id) AS cm
+ON cm.song_id = s.id
 
 WHERE user_id=$1
 ORDER BY s.id
@@ -110,14 +116,13 @@ DESC`, userId)
 
 const getOneSong = (req, res, next) => {
   let songId = req.params.id
-  db.one(`SELECT s.*, the_comments.all_comments
+  db.one(`SELECT s.*, cm.comment AS comment
 FROM songs AS s
 FULL JOIN
-    (SELECT ARRAY_AGG(DISTINCT comments.comment) AS all_comments, song_id
-        FROM comments
-            GROUP BY comments.song_id) AS the_comments
-ON
-the_comments.song_id = s.id
+(SELECT COUNT(song_id) AS comment, song_id
+    FROM comments
+      GROUP BY comments.song_id) AS cm
+ON cm.song_id = s.id
 WHERE id=$1`, songId)
   .then(song => {
     res.status(200)
