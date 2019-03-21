@@ -16,6 +16,9 @@ class Songs extends React.Component {
       return song.title.toLowerCase().includes(this.props.searchByTitle.toLowerCase())
     })
 
+    let favbutton = this.props.favorites.filter(fav => {
+      return fav.fav === true
+    })
 
     let songDisplay = filteredSongs.map(song => {
       let displayComment = this.props.comments.map(com => {
@@ -45,8 +48,8 @@ class Songs extends React.Component {
                 <span className="spantitle">{song.title}
                   <section id="pfav">
                     <p id="pfav2">{song.favorite} favorites</p>
-                    <span data-song_id={song.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                      <i className={ song.id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                    <span data-song_id={song.id} name="favbutton"  onClick={() => this.props.handleClick(song.id)} style={{color: "red"}}>
+                      <i className={ this.props.song.fav === favbutton.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
@@ -82,7 +85,7 @@ class Songs extends React.Component {
               </form>
         </div>
 
-            {(this.props.searchByTitle).includes(songDisplay) === true ? <h1>NOT FOUND</h1> : songDisplay}
+            {(this.props.searchByTitle).includes(songDisplay) === true ? <h1>LOADING...</h1> : songDisplay}
 
 
       </div>
