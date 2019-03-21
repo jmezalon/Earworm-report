@@ -143,7 +143,7 @@ export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handle
       <div className="fenform">
           <form>
           <select name="genreSelect" id="genselect" value={genreSelect} onChange={handleSelect}>
-            <option value="clear"> --Select A Genre-- </option>
+            <option value=""> --Select A Genre-- </option>
             {genreSelections}
           </select>
           </form>

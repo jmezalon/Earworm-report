@@ -78,7 +78,7 @@ class Profile extends Component {
                   <section id="pfav">
                     <p id="pfav2">{songs.favorite} favorites</p>
                     <span data-song_id={songs.song_id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                      <i className={ songs.id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                      <i className={ songs.song_id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
@@ -142,8 +142,8 @@ class Profile extends Component {
                 </section>
                   <section id="addcomment">
                     <form onSubmit={this.props.handleCommentSubmit}>
-                      <span onClick={() => this.props.handleFindCommentSongId(songs.song_id)}>
-                        <input id="cominpt" name="comment"  value={songs.song_id === this.props.song_id ? this.props.comment : ""} onChange={this.props.handleChange} type="text" />
+                      <span onClick={() => this.props.handleFindCommentSongId(songs.id)}>
+                        <input id="cominpt" name="comment"  value={songs.id === this.props.song_id ? this.props.comment : ""} onChange={this.props.handleChange} type="text" />
                         </span>
                         <button>Add comment</button>
                     </form>

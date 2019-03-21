@@ -39,10 +39,10 @@ CREATE TABLE comments (
 
 
 
-INSERT INTO users (username) VALUES ('Maxymax'), ('Kimmy'), ('Crymall'), ('McCorey'), ('Jojo'), ('Nikki'), ('Nielene'), ('Trayway'), ('Angie'), ('Kiki');
+INSERT INTO users (username) VALUES ('Maxymax'), ('Kimmy'), ('Marc'), ('Gerald'), ('Jojo'), ('Nikki'), ('Cassandra'), ('Jadison'), ('Angie'), ('Kiki');
 
 
-INSERT INTO genres (genre) VALUES ('Hip-Hop/Rap'), ('Kompa'), ('R&B'), ('Raggae'), ('Christian');
+INSERT INTO genres (genre) VALUES ('Hip-Hop/Rap'), ('Kompa'), ('R&B'), ('Reggae'), ('Contemporary');
 
 
 INSERT INTO songs (title, img_url, user_id, genre_id) VALUES
