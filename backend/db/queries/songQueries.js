@@ -1,7 +1,7 @@
 const { db } = require('./index.js');
 
 const getAllSongsWithUsersGenresOrderByFavorite = (req, res, next) => {
-  db.any(`SELECT s.*, COALESCE(fv.favorite, 0) as favorite, g.genre, u.username
+  db.any(`SELECT s.*, COALESCE(fv.favorite, 0) as favorite, cm.comment AS comment, g.genre, u.username
           FROM songs AS s
           FULL JOIN genres AS g
           ON s.genre_id = g.id
@@ -12,6 +12,12 @@ const getAllSongsWithUsersGenresOrderByFavorite = (req, res, next) => {
               FROM favorites
                 GROUP BY favorites.song_id) AS fv
           ON fv.song_id = s.id
+
+          FULL JOIN
+            (SELECT COUNT(song_id) AS comment, song_id
+              FROM comments
+                GROUP BY comments.song_id) AS cm
+          ON cm.song_id = s.id
 
           ORDER BY COALESCE(fv.favorite, 0)
           DESC`)
@@ -27,7 +33,7 @@ const getAllSongsWithUsersGenresOrderByFavorite = (req, res, next) => {
 }
 
 const getAllSongsWithUsersGenres = (req, res, next) => {
-  db.any(`SELECT s.*, COALESCE(fv.favorite, 0) as favorite, g.genre, u.username
+  db.any(`SELECT s.*, COALESCE(fv.favorite, 0) as favorite, cm.comment AS comment, g.genre, u.username
           FROM songs AS s
           FULL JOIN genres AS g
           ON s.genre_id = g.id
@@ -38,6 +44,13 @@ const getAllSongsWithUsersGenres = (req, res, next) => {
               FROM favorites
                 GROUP BY favorites.song_id) AS fv
           ON fv.song_id = s.id
+
+          FULL JOIN
+            (SELECT COUNT(song_id) AS comment, song_id
+              FROM comments
+                GROUP BY comments.song_id) AS cm
+          ON cm.song_id = s.id
+
 
           ORDER BY s.id
           DESC`)
