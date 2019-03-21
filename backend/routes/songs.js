@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllSongsWithUsersGenresOrderByFavorite, getAllSongsBySpecificGenre, getAllFavorites, getAllFavsForSpecificSong, getAllSongsPostByOneUser, getOneSong, getAllGenres, postSong, postGenre, deleteSong, deleteGenre, addFavorite, deleteFavorite, getAllComments, getAllCommentsForSpecificSong, postComment, updateComment, deleteComment } = require('../db/queries/songQueries.js');
+const { getAllSongsWithUsersGenresOrderByFavorite, getAllSongsWithUsersGenres, getAllSongsBySpecificGenre, getAllFavorites, getAllFavsForSpecificSong, getAllSongsPostByOneUser, getOneSong, getAllGenres, postSong, postGenre, deleteSong, deleteGenre, addFavorite, deleteFavorite, getAllComments, getAllCommentsForSpecificSong, postComment, updateComment, deleteComment } = require('../db/queries/songQueries.js');
 
-
-router.get('/', getAllSongsWithUsersGenresOrderByFavorite);
+router.get('/', getAllSongsWithUsersGenres);
+router.get('/bypop', getAllSongsWithUsersGenresOrderByFavorite);
 router.get('/comments', getAllComments);
 router.get('/comments/:id', getAllCommentsForSpecificSong);
 router.post('/comment', postComment)
