@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 
-export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handleClick, favorites, genres, genreSelect, handleSelect }) => {
+export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handleClick, favorites, genres, genreSelect, handleSelect, handleCommentSubmit, handleFindCommentSongId, comment, handleChange, song_id }) => {
 
 
 
@@ -62,12 +62,14 @@ export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handle
                   </section>
                 </span>
                 <section id="comment">
-                  <ul>{displayComment}</ul>
+                  <ul>{!song.comment ? <p id="firstcomdisplay">be the first to post a comment</p> : displayComment}</ul>
                 </section>
                   <section id="addcomment">
-                    <form>
-                      <input id="cominpt" type="text" />
-                      <button>Add comment</button>
+                    <form onSubmit={handleCommentSubmit}>
+                      <span onClick={() => handleFindCommentSongId(song.id)}>
+                        <input id="cominpt" name="comment"  value={song.id === song_id ? comment : ""} onChange={handleChange} type="text" />
+                        </span>
+                        <button>Add comment</button>
                     </form>
                     <Link to={song.user_id === 1 ? `/profile` :`/profile/${song.user_id}`}><p id="userp">posted by: {song.username}</p></Link>
                   </section>
@@ -115,12 +117,14 @@ export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handle
                 </section>
               </span>
               <section id="comment">
-                <ul>{displayComment}</ul>
+                <ul>{!song.comment ? <p id="firstcomdisplay">be the first to post a comment</p> : displayComment}</ul>
               </section>
                 <section id="addcomment">
-                  <form>
-                    <input id="cominpt" type="text" />
-                    <button>Add comment</button>
+                  <form onSubmit={handleCommentSubmit}>
+                    <span onClick={() => handleFindCommentSongId(song.id)}>
+                      <input id="cominpt" name="comment"  value={song.id === song_id ? comment : ""} onChange={handleChange} type="text" />
+                      </span>
+                      <button>Add comment</button>
                   </form>
                   <Link to={song.user_id === 1 ? `/profile` :`/profile/${song.user_id}`}><p id="userp">posted by: {song.username}</p></Link>
                 </section>

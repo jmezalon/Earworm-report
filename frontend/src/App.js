@@ -23,6 +23,8 @@ class App extends Component {
     profiles: [],
     comments: [],
     searchByTitle: "",
+    comment: "",
+    song_id: "",
     favbutton: "",
     song: {
         fav: false
@@ -225,6 +227,7 @@ class App extends Component {
         feed: [res.data.song, ...this.state.songs]
       })
       this.getMyProfileSongs()
+      this.getAllComments()
       this.getAllSongsWithUsersGenresOrderByFav()
       this.getAllSongsWithUsersGenres()
     })
@@ -232,6 +235,47 @@ class App extends Component {
       console.log(err, "posting music err");
     })
   }
+
+  //this is for posting comments
+
+
+  handleCommentSubmit = (e) => {
+    e.preventDefault()
+    this.postNewComment()
+  }
+
+
+  handleFindCommentSongId = (songId) => {
+    console.log("mouse over", parseInt(songId));
+    this.setState({
+      song_id: parseInt(songId)
+    })
+  }
+  postNewComment = () => {
+    let comment= this.state.comment
+    let song_id= this.state.song_id
+
+    axios.post('/songs/comment', {
+      song_id: song_id,
+      user_id: 1,
+      comment: comment
+    })
+    .then(res => {
+      this.setState({
+        comments: [res.data.comment, ...this.state.comments],
+        comment: ""
+      })
+      this.getMyProfileSongs()
+      this.getAllSongsWithUsersGenresOrderByFav()
+      this.getAllSongsWithUsersGenres()
+      this.getAllComments()
+    })
+    .catch(err => {
+      console.log(err, "posting comment err");
+    })
+  }
+
+
 
   componentDidMount() {
     this.getAllSongsWithUsersGenresOrderByFav()
@@ -257,10 +301,13 @@ class App extends Component {
             <Route exact path="/profile" render={(props) => <Profile {...props}
             comments={this.state.comments} favbutton={this.state.favbutton}
             song={this.state.song}
+            song_id={this.state.song_id}
             handleSelect={this.handleSelect}
             toggleFavorite={this.toggleFavorite}
             handleClick={this.handleClick}
             genres={this.state.genres}
+            comment={this.state.comment}
+            handleFindCommentSongId={this.handleFindCommentSongId}
 
             title={this.state.title}
             img_url={this.state.img_url}
@@ -274,38 +321,60 @@ class App extends Component {
             getMyFavSongList={this.getMyFavSongList}
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
+            handleCommentSubmit={this.handleCommentSubmit}
               />}
             />
             <Route exact path="/profile/:id" render={(props) => <User {...props} profiles={this.state.profiles} goBack={this.goBack}
             comments={this.state.comments} favbutton={this.state.favbutton}
             song={this.state.song}
+            song_id={this.state.song_id}
             handleSelect={this.handleSelect}
             toggleFavorite={this.toggleFavorite}
             handleClick={this.handleClick}
             genres={this.state.genres}
-
+            comment={this.state.comment}
+            handleCommentSubmit={this.handleCommentSubmit}
+            handleFindCommentSongId={this.handleFindCommentSongId}
+            handleChange={this.handleChange}
               />}
             />
             <Route exact path="/songs" render={(props) => <Songs {...props} songs={this.state.feed} favbutton={this.state.favbutton} searchByTitle={this.state.searchByTitle}
-            song={this.state.song} handleChange={this.handleChange} toggleFavorite={this.toggleFavorite} handleSubmit={this.handleSubmit} handleClick={this.handleClick} comments={this.state.comments}
+            song={this.state.song}
+            handleChange={this.handleChange} toggleFavorite={this.toggleFavorite} handleSubmit={this.handleSubmit} handleClick={this.handleClick} comments={this.state.comments}
             favorites={this.state.favorites}
+            comment={this.state.comment}
+            song_id={this.state.song_id}
+            handleCommentSubmit={this.handleCommentSubmit}
+            handleFindCommentSongId={this.handleFindCommentSongId}
               />}
             />
             <Route exact path="/songs/bypop" render={(props) => <ByFav {...props} songs={this.state.songs} favbutton={this.state.favbutton}
             song={this.state.song}
             toggleFavorite={this.toggleFavorite}
-            handleClick={this.handleClick} comments={this.state.comments}
+            handleClick={this.handleClick}
+            song_id={this.state.song_id}
+            comments={this.state.comments}
             favorites={this.state.favorites}
+            comment={this.state.comment}
+            handleChange={this.handleChange}
+            handleCommentSubmit={this.handleCommentSubmit}
+            handleFindCommentSongId={this.handleFindCommentSongId}
               />}
             />
             <Route exact path="/songs/bygen" render={(props) => <ByGen {...props} songs={this.state.songs} favbutton={this.state.favbutton}
             song={this.state.song}
+            song_id={this.state.song_id}
             genres={this.state.genres}
             handleSelect={this.handleSelect}
             genreSelect={this.state.genreSelect}
             toggleFavorite={this.toggleFavorite}
-            handleClick={this.handleClick} comments={this.state.comments}
+            handleClick={this.handleClick}
+            handleChange={this.handleChange}
+            comments={this.state.comments}
             favorites={this.state.favorites}
+            comment={this.state.comment}
+            handleCommentSubmit={this.handleCommentSubmit}
+            handleFindCommentSongId={this.handleFindCommentSongId}
               />}
             />
           </Switch>

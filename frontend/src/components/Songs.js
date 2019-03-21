@@ -54,12 +54,14 @@ class Songs extends React.Component {
                   </section>
                 </span>
                 <section id="comment">
-                  <ul>{displayComment}</ul>
+                  <ul>{!song.comment ? <p id="firstcomdisplay">be the first to post a comment</p> : displayComment}</ul>
                 </section>
                   <section id="addcomment">
-                    <form>
-                      <input id="cominpt" type="text" />
-                      <button>Add comment</button>
+                    <form onSubmit={this.props.handleCommentSubmit}>
+                      <span onClick={() => this.props.handleFindCommentSongId(song.id)}>
+                        <input id="cominpt" name="comment"  value={song.id === this.props.song_id ? this.props.comment : ""} onChange={this.props.handleChange} type="text" />
+                        </span>
+                        <button>Add comment</button>
                     </form>
                     <Link to={song.user_id === 1 ? `/profile` :`/profile/${song.user_id}`}><p id="userp">posted by: {song.username}</p></Link>
                   </section>

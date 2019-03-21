@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 
 
-export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, comments, handleClick, favbutton, song }) => {
+export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, comments, handleClick, favbutton, song_id, song, handleCommentSubmit, handleFindCommentSongId, comment, handleChange }) => {
 
 
   //post display
@@ -40,12 +40,14 @@ export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, c
                 </section>
               </span>
               <section id="comment">
-                <ul>{displayComment}</ul>
+                <ul>{!songs.comment ? <p id="firstcomdisplay">be the first to post a comment</p> : displayComment}</ul>
               </section>
                 <section id="addcomment">
-                  <form>
-                    <input id="cominpt" type="text" />
-                    <button>Add comment</button>
+                  <form onSubmit={handleCommentSubmit}>
+                    <span onClick={() => handleFindCommentSongId(songs.id)}>
+                      <input id="cominpt" name="comment"  value={songs.id === song_id ? comment : ""} onChange={handleChange} type="text" />
+                      </span>
+                      <button>Add comment</button>
                   </form>
 
                 </section>
@@ -91,12 +93,14 @@ export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, c
                 </section>
               </span>
               <section id="comment">
-                <ul>{displayComment}</ul>
+                <ul>{!songs.comment ? <p id="firstcomdisplay">be the first to post a comment</p> : displayComment}</ul>
               </section>
                 <section id="addcomment">
-                  <form>
-                    <input id="cominpt" type="text" />
-                    <button>Add comment</button>
+                  <form onSubmit={handleCommentSubmit}>
+                    <span onClick={() => handleFindCommentSongId(songs.song_id)}>
+                      <input id="cominpt" name="comment"  value={songs.song_id === song_id ? comment : ""} onChange={handleChange} type="text" />
+                      </span>
+                      <button>Add comment</button>
                   </form>
 
                 </section>

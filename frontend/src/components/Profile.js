@@ -83,12 +83,14 @@ class Profile extends Component {
                   </section>
                 </span>
                 <section id="comment">
-                  <ul>{displayComment}</ul>
+                  <ul>{!songs.comment ? <p id="firstcomdisplay">be the first to post a comment</p> : displayComment}</ul>
                 </section>
                   <section id="addcomment">
-                    <form>
-                      <input id="cominpt" type="text" />
-                      <button>Add comment</button>
+                    <form onSubmit={this.props.handleCommentSubmit}>
+                      <span onClick={() => this.props.handleFindCommentSongId(songs.song_id)}>
+                        <input id="cominpt" name="comment"  value={songs.song_id === this.props.song_id ? this.props.comment : ""} onChange={this.props.handleChange} type="text" />
+                        </span>
+                        <button>Add comment</button>
                     </form>
 
                   </section>
@@ -136,12 +138,14 @@ class Profile extends Component {
                   </section>
                 </span>
                 <section id="comment">
-                  <ul>{displayComment}</ul>
+                  <ul>{!songs.comment ? <p id="firstcomdisplay">be the first to post a comment</p> : displayComment}</ul>
                 </section>
                   <section id="addcomment">
-                    <form>
-                      <input id="cominpt" type="text" />
-                      <button>Add comment</button>
+                    <form onSubmit={this.props.handleCommentSubmit}>
+                      <span onClick={() => this.props.handleFindCommentSongId(songs.song_id)}>
+                        <input id="cominpt" name="comment"  value={songs.song_id === this.props.song_id ? this.props.comment : ""} onChange={this.props.handleChange} type="text" />
+                        </span>
+                        <button>Add comment</button>
                     </form>
 
                   </section>

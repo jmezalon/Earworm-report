@@ -65,6 +65,14 @@ hr {
   padding-left: 3px;
 }
 
+#firstcomdisplay {
+  color: gray;
+}
+
+#comment:hover {
+  height: 100px;
+}
+
 #olli {
   list-style: none;
   color: gray;
@@ -91,6 +99,8 @@ hr {
 .songForm {
 
 }
+
+
 
 #searchinput {
   width: 200px;

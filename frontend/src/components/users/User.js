@@ -134,6 +134,12 @@ class User extends React.Component {
         handleClick={this.props.handleClick}
         handleCommentClick={this.handleCommentClick}
 
+        handleFindCommentSongId={this.props.handleFindCommentSongId}
+        comment={this.props.comment}
+        handleChange={this.props.handleChange}
+        handleCommentSubmit={this.props.handleCommentSubmit}
+        song_id={this.props.song_id}
+
         userFav={this.state.userFav}
         userSongs={this.state.userSongs}
 
