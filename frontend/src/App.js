@@ -283,7 +283,6 @@ class App extends Component {
 
 
   handleFindCommentSongId = (songId) => {
-    console.log("mouse over", parseInt(songId));
     this.setState({
       song_id: parseInt(songId)
     })

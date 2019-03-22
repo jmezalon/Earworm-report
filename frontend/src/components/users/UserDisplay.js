@@ -2,11 +2,12 @@ import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 
 
-export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, comments, handleClick, favbutton, song_id, song, handleCommentSubmit, handleFindCommentSongId, comment, handleChange }) => {
+export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, comments, handleClick, favbutton, song_id, song, favorites, handleCommentSubmit, handleFindCommentSongId, comment, handleChange }) => {
 
 
   //post display
   let postDisplay = userSongs.map(songs => {
+    let favUserId = favorites.find(id => id.song_id === songs.id)
     let displayComment = comments.map(com => {
       if(com.song_id === songs.id) {
         return (
@@ -34,8 +35,8 @@ export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, c
               <span className="spantitle">{songs.title}
                 <section id="pfav">
                   <p id="pfav2">{songs.favorite} favorites</p>
-                  <span data-song_id={songs.id} name="favbutton"  onClick={handleClick} style={{color: "red"}}>
-                    <i className={ songs.user_id === 1 ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                  <span data-song_id={songs.id} name="favbutton"  onClick={() => handleClick(songs.id)} style={{color: "red"}}>
+                    <i className={ favUserId ? "far fa-grin-hearts" : "far fa-heart"}></i>
                     </span>
                 </section>
               </span>
@@ -60,6 +61,7 @@ export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, c
   // favorite display
 
   let favoritedDisplay = userFav.map(songs => {
+    let favUserId = favorites.find(id => id.song_id === songs.song_id)
     let displayComment = comments.map(com => {
       if(com.song_id === songs.song_id) {
         return (
@@ -87,8 +89,8 @@ export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, c
               <span className="spantitle">{songs.title}
                 <section id="pfav">
                   <p id="pfav2">{songs.favorite} favorites</p>
-                  <span data-song_id={songs.song_id} name="favbutton"  onClick={handleClick} style={{color: "red"}}>
-                    <i className={ songs.user_id === 1 ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                  <span data-song_id={songs.song_id} name="favbutton"  onClick={() => handleClick(songs.song_id)} style={{color: "red"}}>
+                    <i className={ favUserId ? "far fa-grin-hearts" : "far fa-heart"}></i>
                     </span>
                 </section>
               </span>

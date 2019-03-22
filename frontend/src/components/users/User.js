@@ -142,7 +142,7 @@ class User extends React.Component {
 
         userFav={this.state.userFav}
         userSongs={this.state.userSongs}
-
+        favorites={this.props.favorites}
         posted2={this.state.posted2}
 
         />
