@@ -26,17 +26,15 @@ class App extends Component {
     comment: "",
     song_id: "",
     favbutton: "",
-    song: {
-        fav: false
-      },
+
     favorites: [],
+    fav_id: "",
 
     title: "",
     img_url: "",
     genreSelect: "",
     myProfileSongs: [],
     myFavorite: [],
-    myFavSongList: [],
     myProfile: []
 
 
@@ -52,50 +50,102 @@ class App extends Component {
     })
   }
 
-  toggleFavorite= async (id) => {
-    console.log(this.state.song.fav, "SONG FAV");
-    console.log("i'm clicked", id);
-
-    // let favbutton2 = {fav: !this.state.song.fav}
-    // let newfavid= parseInt(this.state.song.id)
-    // if ( parseInt(id)=== newfavid) {
-    //   await this.setState({
-    //     song: Object.assign(this.state.song, favbutton2)
-    //   })
-    // }
-    // console.log(this.state.song, "SONG FAV AFTER STATE");
-  }
-
   //this is all the handles
 
   handleSelect = async (e) => {
     await this.setState({
       [e.target.name] : e.target.value
     })
-    // if (this.state.genreSelect !== "clear") {
-    //   this.getAllMoviesBySpecificGenre()
-    // }
+
+  }
+
+// will work on this some more
+  postFavorites = (id) => {
+
+    let fav = this.state.favorites.filter(f => f.user_id === 1)
+
+    console.log(fav, "this is FAV IN FILTERING");
+    let favSong = fav.find(ff => ff.song_id === parseInt(id))
+
+    console.log(favSong, "this is FAVSONG in finding");
+      if (!favSong) {
+       axios.post('/songs/bypop', {
+            song_id: parseInt(id),
+            user_id: 1
+          }
+        )
+        .then(res => {
+          debugger
+          this.setState({
+            myFavorite: [res.data.favorite, ...this.state.myFavorite]
+          })
+          this.getAllFavorites()
+          this.getMyProfileSongs()
+          this.getAllSongsWithUsersGenresOrderByFav()
+          this.getAllSongsWithUsersGenres()
+          this.getAllComments()
+          this.getMyProfileInfo()
+          this.getMyFavSongList()
+        })
+        .catch(err => {
+          console.log(err, "posting favorites err");
+        })
+      }
+
+  }
+
+  deleteFavorite = (id) => {
+    let fav = this.state.favorites.filter(f => f.user_id === 1)
+
+    console.log(fav, "this is FAV IN FILTERING");
+    let favSong = fav.find(ff => ff.song_id === parseInt(id))
+
+    console.log(favSong, "this is FAVSONG in finding");
+    if (favSong) {
+      axios.delete(`/songs/bypop/${favSong.id}`)
+      .then(res => {
+        debugger
+        this.setState({
+          fav_id: parseInt(favSong.id)
+        })
+        this.getAllFavorites()
+        this.getMyProfileSongs()
+        this.getAllSongsWithUsersGenresOrderByFav()
+        this.getAllSongsWithUsersGenres()
+        this.getAllComments()
+        this.getMyProfileInfo()
+        this.getMyFavSongList()
+      })
+      .catch(err => {
+        console.log(err, "delete request err");
+      })
+    }
+  console.log(this.state.fav_id, 'this is FAV_id that i deleted');
   }
 
 
-  handleClick = async (id) => {
-    console.log(this.state.song, "I AM SONGS");
-     const selectedSong = this.state.songs.find(song => {
-        return song.id === parseInt(id)
-      })
-      let favbuttons= {fav: !this.state.song.fav}
-      // let newSong
-      if(selectedSong){
-        // newSong = Object.assign(this.state.song, selectedSong)
-        if (selectedSong.id === parseInt(id) && !this.state.favorites.includes(selectedSong)){
-          await this.setState({
-            song: Object.assign(favbuttons, selectedSong),
-            favorites: [...this.state.favorites, favbuttons]
-          })
-          this.toggleFavorite(parseInt(id))
-          console.log(this.state.favorites, "I am favorite");
-        }
-      }
+  handleClick = (id) => {
+    this.postFavorites(parseInt(id))
+    this.deleteFavorite(parseInt(id))
+    // this.getMyProfileSongs()
+    // this.getAllSongsWithUsersGenresOrderByFav()
+    // this.getAllSongsWithUsersGenres()
+    // this.getAllComments()
+    // console.log(this.state.song, "I AM SONGS");
+    //  const selectedSong = this.state.songs.find(song => {
+    //     return song.id === parseInt(id)
+    //   })
+    //   let favbuttons= {fav: !this.state.song.fav}
+    //   // let newSong
+    //   if(selectedSong){
+    //     // newSong = Object.assign(this.state.song, selectedSong)
+    //     if (selectedSong.id === parseInt(id) && !this.state.favorites.includes(selectedSong)){
+    //       await this.setState({
+    //         song: Object.assign(favbuttons, selectedSong),
+    //       })
+      //     console.log(this.state.favorites, "I am favorite");
+      //   }
+      // }
     }
 
 
@@ -211,6 +261,20 @@ class App extends Component {
     })
   }
 
+  getAllFavorites = () => {
+    axios.get("/songs/bypop/fav")
+    .then(res => {
+
+      this.setState({
+        favorites: res.data.favorites
+      })
+    })
+    .catch(err => {
+      console.log(err, "get all fav err");
+    })
+
+  }
+
 
   postNewSong = () => {
     let song = {
@@ -286,7 +350,7 @@ class App extends Component {
     this.getMyProfileInfo()
     this.getMyProfileSongs()
     this.getMyFavSongList()
-
+    this.getAllFavorites()
   }
 
 
@@ -322,6 +386,7 @@ class App extends Component {
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
             handleCommentSubmit={this.handleCommentSubmit}
+            favorites={this.state.favorites}
               />}
             />
             <Route exact path="/profile/:id" render={(props) => <User {...props} profiles={this.state.profiles} goBack={this.goBack}
@@ -336,6 +401,7 @@ class App extends Component {
             handleCommentSubmit={this.handleCommentSubmit}
             handleFindCommentSongId={this.handleFindCommentSongId}
             handleChange={this.handleChange}
+            favorites={this.state.favorites}
               />}
             />
             <Route exact path="/songs" render={(props) => <Songs {...props} songs={this.state.feed} favbutton={this.state.favbutton} searchByTitle={this.state.searchByTitle}

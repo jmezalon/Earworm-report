@@ -76,9 +76,9 @@ class Profile extends Component {
               <section className="spansec">
                 <span className="spantitle">{songs.title}
                   <section id="pfav">
-                    <p id="pfav2">{songs.favorite} favorites</p>
+                    <p id="pfav2">{!songs.favorite ? 0 : songs.favorite} favorites</p>
                     <span data-song_id={songs.song_id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                      <i className={ songs.song_id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                      <i className={ !songs.favorite ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
@@ -131,9 +131,9 @@ class Profile extends Component {
               <section className="spansec">
                 <span className="spantitle">{songs.title}
                   <section id="pfav">
-                    <p id="pfav2">{songs.favorite} favorites</p>
+                    <p id="pfav2">{!songs.favorite ? 0 : songs.favorite} favorites</p>
                     <span data-song_id={songs.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                      <i className={ songs.id === this.props.favbutton && this.props.song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                      <i className={ songs.favorite ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>

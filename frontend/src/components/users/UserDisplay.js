@@ -35,7 +35,7 @@ export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, c
                 <section id="pfav">
                   <p id="pfav2">{songs.favorite} favorites</p>
                   <span data-song_id={songs.id} name="favbutton"  onClick={handleClick} style={{color: "red"}}>
-                    <i className={ songs.id === favbutton && song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                    <i className={ songs.user_id === 1 ? "far fa-grin-hearts" : "far fa-heart"}></i>
                     </span>
                 </section>
               </span>
@@ -88,7 +88,7 @@ export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, c
                 <section id="pfav">
                   <p id="pfav2">{songs.favorite} favorites</p>
                   <span data-song_id={songs.song_id} name="favbutton"  onClick={handleClick} style={{color: "red"}}>
-                    <i className={ songs.id === favbutton && song.fav ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                    <i className={ songs.user_id === 1 ? "far fa-grin-hearts" : "far fa-heart"}></i>
                     </span>
                 </section>
               </span>
