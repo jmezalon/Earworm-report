@@ -8,6 +8,7 @@ class User extends React.Component {
   state = {
     userFav: [],
     userSongs:[],
+    id: "",
     posted2: true,
     favorited2: false,
   }
@@ -84,6 +85,18 @@ class User extends React.Component {
 
   }
 
+  handleSingleUserInfo = async () => {
+    await this.setState({
+      id: parseInt(this.props.match.params.id)
+    })
+    if (this.state.id !== 1) {
+      this.getUserSongs(this.state.id)
+      this.getUserFavSongList(this.state.id)
+    } else {
+      return null
+    }
+  }
+
 
 
   componentDidMount() {
@@ -125,6 +138,7 @@ class User extends React.Component {
         </div>
 
         <UserDisplay
+        handleSingleUserInfo={this.handleSingleUserInfo}
         comments={this.props.comments}
         favbutton={this.props.favbutton}
         song={this.props.song}

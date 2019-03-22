@@ -266,6 +266,7 @@ class App extends Component {
         feed: [res.data.song, ...this.state.songs]
       })
       this.getMyProfileSongs()
+      this.getMyFavSongList()
       this.getAllComments()
       this.getAllSongsWithUsersGenresOrderByFav()
       this.getAllSongsWithUsersGenres()

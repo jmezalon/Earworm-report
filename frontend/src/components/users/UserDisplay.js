@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter } from "react-router-dom";
 
 
-export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, comments, handleClick, favbutton, song_id, song, favorites, handleCommentSubmit, handleFindCommentSongId, comment, handleChange }) => {
+export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, comments, handleClick, favbutton, song_id, song, favorites, handleCommentSubmit, handleFindCommentSongId, handleSingleUserInfo, comment, handleChange }) => {
 
 
   //post display
@@ -32,7 +32,7 @@ export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, c
           </div>
           <div>
             <section className="spansec">
-              <span className="spantitle">{songs.title}
+              <span onMouseLeave={handleSingleUserInfo} className="spantitle">{songs.title}
                 <section id="pfav">
                   <p id="pfav2">{songs.favorite} favorites</p>
                   <span data-song_id={songs.id} name="favbutton"  onClick={() => handleClick(songs.id)} style={{color: "red"}}>
@@ -86,7 +86,7 @@ export const UserDisplay = ({ posted2, handleCommentClick, userSongs, userFav, c
           </div>
           <div>
             <section className="spansec">
-              <span className="spantitle">{songs.title}
+              <span onMouseLeave={handleSingleUserInfo} className="spantitle">{songs.title}
                 <section id="pfav">
                   <p id="pfav2">{songs.favorite} favorites</p>
                   <span data-song_id={songs.song_id} name="favbutton"  onClick={() => handleClick(songs.song_id)} style={{color: "red"}}>
