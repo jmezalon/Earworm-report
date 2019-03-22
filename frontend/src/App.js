@@ -28,7 +28,7 @@ class App extends Component {
     favbutton: "",
 
     favorites: [],
-    fav_id: "",
+    likes: [],
 
     title: "",
     img_url: "",
@@ -64,10 +64,8 @@ class App extends Component {
 
     let fav = this.state.favorites.filter(f => f.user_id === 1)
 
-    console.log(fav, "this is FAV IN FILTERING");
     let favSong = fav.find(ff => ff.song_id === parseInt(id))
 
-    console.log(favSong, "this is FAVSONG in finding");
       if (!favSong) {
        axios.post('/songs/bypop', {
             song_id: parseInt(id),
@@ -77,9 +75,11 @@ class App extends Component {
         .then(res => {
           debugger
           this.setState({
-            myFavorite: [res.data.favorite, ...this.state.myFavorite]
+            myFavorite: [res.data.favorite, ...this.state.myFavorite],
+            likes: [...this.state.likes, fav]
           })
           this.getAllFavorites()
+          console.log(this.state.likes, "this is likes");
           this.getMyProfileSongs()
           this.getAllSongsWithUsersGenresOrderByFav()
           this.getAllSongsWithUsersGenres()
@@ -97,17 +97,15 @@ class App extends Component {
   deleteFavorite = (id) => {
     let fav = this.state.favorites.filter(f => f.user_id === 1)
 
-    console.log(fav, "this is FAV IN FILTERING");
     let favSong = fav.find(ff => ff.song_id === parseInt(id))
 
-    console.log(favSong, "this is FAVSONG in finding");
     if (favSong) {
       axios.delete(`/songs/bypop/${favSong.id}`)
       .then(res => {
         debugger
-        this.setState({
-          fav_id: parseInt(favSong.id)
-        })
+        // this.setState({
+        //   likes: parseInt(favSong.id)
+        // })
         this.getAllFavorites()
         this.getMyProfileSongs()
         this.getAllSongsWithUsersGenresOrderByFav()
@@ -119,33 +117,15 @@ class App extends Component {
       .catch(err => {
         console.log(err, "delete request err");
       })
+      console.log(this.state.likes, 'this is FAV_id that i deleted');
     }
-  console.log(this.state.fav_id, 'this is FAV_id that i deleted');
   }
 
 
   handleClick = (id) => {
     this.postFavorites(parseInt(id))
     this.deleteFavorite(parseInt(id))
-    // this.getMyProfileSongs()
-    // this.getAllSongsWithUsersGenresOrderByFav()
-    // this.getAllSongsWithUsersGenres()
-    // this.getAllComments()
-    // console.log(this.state.song, "I AM SONGS");
-    //  const selectedSong = this.state.songs.find(song => {
-    //     return song.id === parseInt(id)
-    //   })
-    //   let favbuttons= {fav: !this.state.song.fav}
-    //   // let newSong
-    //   if(selectedSong){
-    //     // newSong = Object.assign(this.state.song, selectedSong)
-    //     if (selectedSong.id === parseInt(id) && !this.state.favorites.includes(selectedSong)){
-    //       await this.setState({
-    //         song: Object.assign(favbuttons, selectedSong),
-    //       })
-      //     console.log(this.state.favorites, "I am favorite");
-      //   }
-      // }
+
     }
 
 
@@ -243,7 +223,8 @@ class App extends Component {
     axios.get("/profile/bypop/1")
     .then(res => {
       this.setState({
-        myFavorite: res.data.favorites
+        myFavorite: res.data.favorites,
+        likes: res.data.favorites
       })
     }).catch(err => {
       console.log(err, "myProfile song list ERR");
@@ -386,7 +367,8 @@ class App extends Component {
             handleChange={this.handleChange}
             handleSubmit={this.handleSubmit}
             handleCommentSubmit={this.handleCommentSubmit}
-            favorites={this.state.favorites}
+            favorites={this.state.likes}
+
               />}
             />
             <Route exact path="/profile/:id" render={(props) => <User {...props} profiles={this.state.profiles} goBack={this.goBack}
@@ -401,13 +383,13 @@ class App extends Component {
             handleCommentSubmit={this.handleCommentSubmit}
             handleFindCommentSongId={this.handleFindCommentSongId}
             handleChange={this.handleChange}
-            favorites={this.state.favorites}
+            favorites={this.state.likes}
               />}
             />
             <Route exact path="/songs" render={(props) => <Songs {...props} songs={this.state.feed} favbutton={this.state.favbutton} searchByTitle={this.state.searchByTitle}
             song={this.state.song}
             handleChange={this.handleChange} toggleFavorite={this.toggleFavorite} handleSubmit={this.handleSubmit} handleClick={this.handleClick} comments={this.state.comments}
-            favorites={this.state.favorites}
+            favorites={this.state.likes}
             comment={this.state.comment}
             song_id={this.state.song_id}
             handleCommentSubmit={this.handleCommentSubmit}
@@ -420,7 +402,7 @@ class App extends Component {
             handleClick={this.handleClick}
             song_id={this.state.song_id}
             comments={this.state.comments}
-            favorites={this.state.favorites}
+            favorites={this.state.likes}
             comment={this.state.comment}
             handleChange={this.handleChange}
             handleCommentSubmit={this.handleCommentSubmit}
@@ -437,7 +419,7 @@ class App extends Component {
             handleClick={this.handleClick}
             handleChange={this.handleChange}
             comments={this.state.comments}
-            favorites={this.state.favorites}
+            favorites={this.state.likes}
             comment={this.state.comment}
             handleCommentSubmit={this.handleCommentSubmit}
             handleFindCommentSongId={this.handleFindCommentSongId}
