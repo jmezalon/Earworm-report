@@ -44,7 +44,7 @@ export const ByFav = ({ songs, comments, favbutton, song, toggleFavorite, handle
                   <section id="pfav">
                     <p id="pfav2">{song.favorite} favorites</p>
                     <span data-song_id={song.id} name="favbutton"  onClick={() => handleClick(song.id)} style={{color: "red"}}>
-                      <i className={ favUserId === 1 ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                      <i className={ favUserId ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
