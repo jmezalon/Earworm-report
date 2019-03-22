@@ -28,7 +28,7 @@ export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handle
   let songDisplay
   if (filteredSongs) {
     songDisplay = filteredSongs.map(song => {
-
+      let favUserId = this.props.favorites.find(id => id.song_id === song.id)
       let displayComment = comments.map(com => {
         if(com.song_id === song.id) {
           return (
@@ -57,7 +57,7 @@ export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handle
                   <section id="pfav">
                     <p id="pfav2">{song.favorite} favorites</p>
                     <span data-song_id={song.id} name="favbutton"  onClick={() => handleClick(song.id)} style={{color: "red"}}>
-                      <i className={ song.user_id === 1 ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                      <i className={ favUserId ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
@@ -83,7 +83,7 @@ export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handle
 
 
   let allSongs = songs.map(song => {
-
+    let favUserId = this.props.favorites.find(id => id.song_id === song.id)
     let displayComment = comments.map(com => {
       if(com.song_id === song.id) {
         return (
@@ -112,7 +112,7 @@ export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handle
                 <section id="pfav">
                   <p id="pfav2">{song.favorite} favorites</p>
                   <span data-song_id={song.id} name="favbutton"  onClick={() => handleClick(song.id)} style={{color: "red"}}>
-                    <i className={ song.user_id === 1 ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                    <i className={ favUserId ? "far fa-grin-hearts" : "far fa-heart"}></i>
                     </span>
                 </section>
               </span>

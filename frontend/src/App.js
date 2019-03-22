@@ -73,13 +73,11 @@ class App extends Component {
           }
         )
         .then(res => {
-          debugger
           this.setState({
             myFavorite: [res.data.favorite, ...this.state.myFavorite],
             likes: [...this.state.likes, fav]
           })
           this.getAllFavorites()
-          console.log(this.state.likes, "this is likes");
           this.getMyProfileSongs()
           this.getAllSongsWithUsersGenresOrderByFav()
           this.getAllSongsWithUsersGenres()
@@ -102,10 +100,6 @@ class App extends Component {
     if (favSong) {
       axios.delete(`/songs/bypop/${favSong.id}`)
       .then(res => {
-        debugger
-        // this.setState({
-        //   likes: parseInt(favSong.id)
-        // })
         this.getAllFavorites()
         this.getMyProfileSongs()
         this.getAllSongsWithUsersGenresOrderByFav()
@@ -117,7 +111,6 @@ class App extends Component {
       .catch(err => {
         console.log(err, "delete request err");
       })
-      console.log(this.state.likes, 'this is FAV_id that i deleted');
     }
   }
 
@@ -125,7 +118,6 @@ class App extends Component {
   handleClick = (id) => {
     this.postFavorites(parseInt(id))
     this.deleteFavorite(parseInt(id))
-
     }
 
 

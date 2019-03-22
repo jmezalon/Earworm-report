@@ -50,6 +50,7 @@ class Profile extends Component {
     // this is for favorite
 
     let favoriteDisplay = this.props.myFavorite.map(songs => {
+      let favUserId = this.props.favorites.find(id => id.id === songs.id)
       let displayComment = this.props.comments.map(com => {
         if(com.song_id === songs.song_id) {
           return (
@@ -77,8 +78,8 @@ class Profile extends Component {
                 <span className="spantitle">{songs.title}
                   <section id="pfav">
                     <p id="pfav2">{!songs.favorite ? 0 : songs.favorite} favorites</p>
-                    <span data-song_id={songs.song_id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                      <i className={ !songs.favorite ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                    <span data-song_id={songs.song_id} name="favbutton"  onClick={() => this.props.handleClick(songs.song_id)} style={{color: "red"}}>
+                      <i className={ favUserId ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
@@ -105,6 +106,7 @@ class Profile extends Component {
     // this is for post
 
     let postDisplay = this.props.myProfileSongs.map(songs => {
+      let favUserId = this.props.favorites.find(id => id.song_id === songs.id)
       let displayComment = this.props.comments.map(com => {
         if(com.song_id === songs.id) {
           return (
@@ -132,8 +134,8 @@ class Profile extends Component {
                 <span className="spantitle">{songs.title}
                   <section id="pfav">
                     <p id="pfav2">{!songs.favorite ? 0 : songs.favorite} favorites</p>
-                    <span data-song_id={songs.id} name="favbutton"  onClick={this.props.handleClick} style={{color: "red"}}>
-                      <i className={ songs.favorite ? "far fa-grin-hearts" : "far fa-heart"}></i>
+                    <span data-song_id={songs.id} name="favbutton"  onClick={() => this.props.handleClick(songs.id)} style={{color: "red"}}>
+                      <i className={ favUserId ? "far fa-grin-hearts" : "far fa-heart"}></i>
                       </span>
                   </section>
                 </span>
