@@ -81,7 +81,7 @@ const getAllSongsBySpecificGenre = (req, res, next) => {
 
 const getAllSongsPostByOneUser = (req, res, next) => {
   let userId = req.params.id
-  db.any(`SELECT s.id, s.title, cm.comment as comment, s.genre_id, s.img_url,
+  db.any(`SELECT s.id, u.id AS user_id, s.title, cm.comment AS comment, s.genre_id, s.img_url,
             fv.favorite
               FROM songs AS s
                 JOIN users AS u
@@ -223,7 +223,7 @@ const getAllFavorites = (req, res, next) => {
 
 const getAllFavsForSpecificSong = (req, res, next) => {
   let songId = req.params.id
-  db.any(`SELECT f.id, u.id, u.username
+  db.any(`SELECT f.id, f.user_id AS fav_id, u.username
           FROM favorites AS f
           FULL JOIN users AS u
           ON f.user_id = u.id

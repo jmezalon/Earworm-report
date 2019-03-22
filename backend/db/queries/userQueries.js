@@ -71,8 +71,10 @@ const deleteUser = (req, res, next) => {
 
 const getAllFavsForSpecificUser = (req, res, next) => {
   let userId = req.params.id
-  db.any(`SELECT f.id, f.song_id, s.title, cm.comment as comment, s.img_url,  fv.favorite, g.genre
+  db.any(`SELECT f.id, f.song_id, u.id AS user_id, s.title, cm.comment as comment, s.img_url,  fv.favorite, g.genre
             FROM favorites AS f
+            FULL JOIN users as u
+              on f.user_id = u.id
               FULL JOIN songs AS s
               ON f.song_id = s.id
                 FULL JOIN
@@ -91,7 +93,7 @@ const getAllFavsForSpecificUser = (req, res, next) => {
             ON s.genre_id = g.id
             WHERE f.user_id =$1
             ORDER BY f.id
-                ASC`, userId)
+                DESC`, userId)
   .then(favorites => {
     res.status(200)
     .json({

@@ -13,7 +13,7 @@ router.delete('/comment/:id', deleteComment);
 router.get('/bygen', getAllGenres);
 router.post('/bygen', postGenre);
 router.delete('/bygen/:id', deleteGenre);
-router.get('/bypop', getAllFavorites);
+router.get('/bypop/fav', getAllFavorites);
 router.post('/bypop', addFavorite);
 router.delete('/bypop/:id', deleteFavorite);
 router.get('/bypop/:id', getAllFavsForSpecificSong);
