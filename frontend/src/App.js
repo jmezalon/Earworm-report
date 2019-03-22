@@ -189,15 +189,17 @@ class App extends Component {
   //// this is all the post request and profile display
   handleSubmit = async (e) => {
     e.preventDefault()
-    await this.postNewSong()
-    await this.setState({
-      title: "",
-      img_url: "",
-      genreSelect: ""
-    })
-    this.getMyProfileSongs()
-    this.getAllSongsWithUsersGenresOrderByFav()
-    this.getAllSongsWithUsersGenres()
+    if (this.state.title && this.state.img_url && this.state.genreSelect) {
+      await this.postNewSong()
+      await this.setState({
+        title: "",
+        img_url: "",
+        genreSelect: ""
+      })
+      this.getMyProfileSongs()
+      this.getAllSongsWithUsersGenresOrderByFav()
+      this.getAllSongsWithUsersGenres()
+    }
   }
 
   getMyProfileSongs = () => {
