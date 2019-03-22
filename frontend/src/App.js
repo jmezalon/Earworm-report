@@ -306,6 +306,7 @@ class App extends Component {
       this.getMyProfileSongs()
       this.getAllSongsWithUsersGenresOrderByFav()
       this.getAllSongsWithUsersGenres()
+      this.getMyFavSongList()
       this.getAllComments()
     })
     .catch(err => {
