@@ -69,42 +69,4 @@ const deleteUser = (req, res, next) => {
 }
 
 
-const getAllFavsForSpecificUser = (req, res, next) => {
-  let userId = req.params.id
-  db.any(`SELECT f.id, f.song_id, u.id AS user_id, s.title, cm.comment as comment, s.img_url,  fv.favorite, g.genre
-            FROM favorites AS f
-            FULL JOIN users as u
-              on f.user_id = u.id
-              FULL JOIN songs AS s
-              ON f.song_id = s.id
-                FULL JOIN
-                  (SELECT COUNT(song_id) AS favorite, song_id
-                    FROM favorites
-                      GROUP BY favorites.song_id) AS fv
-          ON fv.song_id = s.id
-
-          FULL JOIN
-          (SELECT COUNT(song_id) AS comment, song_id
-              FROM comments
-                GROUP BY comments.song_id) AS cm
-          ON cm.song_id = s.id
-
-          FULL JOIN genres AS g
-            ON s.genre_id = g.id
-            WHERE f.user_id =$1
-            ORDER BY f.id
-                DESC`, userId)
-  .then(favorites => {
-    res.status(200)
-    .json({
-      status: 'success',
-      favorites: favorites,
-      message: 'this is all favorites for this User'
-    })
-  })
-  .catch(err => next(err));
-}
-
-
-
-module.exports = { getAllUsers, getAllFavsForSpecificUser, getSingleUser, addUser, deleteUser }
+module.exports = { getAllUsers, getSingleUser, addUser, deleteUser }
