@@ -82,8 +82,8 @@ class Songs extends React.Component {
                 </div>
               </form>
         </div>
-
-            {(this.props.searchByTitle).includes(songDisplay) === true ? <h1>LOADING...</h1> : songDisplay}
+            {!this.props.songs.length ? <h1>LOADING...</h1> : null}
+            {this.props.searchByTitle !== "" && (this.props.searchByTitle).includes(songDisplay) ? <h1>Not in our list... :(, you can post it in your profile!</h1> : songDisplay}
 
 
       </div>

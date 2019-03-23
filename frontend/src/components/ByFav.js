@@ -4,14 +4,7 @@ import { Link } from 'react-router-dom'
 
 export const ByFav = ({ songs, comments, favbutton, song, toggleFavorite, handleClick, favorites, song_id, handleCommentSubmit, handleFindCommentSongId, comment, handleChange }) => {
 
-// let favbutton;
 
-  // if (favorites) {
-  //
-  //   favbutton = favorites.find(fav => {
-  //     return fav.fav === true
-  //   })
-  // }
   let songDisplay;
   if (songs) {
      songDisplay = songs.map(song => {

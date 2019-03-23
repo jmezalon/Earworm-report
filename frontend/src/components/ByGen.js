@@ -12,17 +12,6 @@ export const ByGen = ({ songs, comments, favbutton, song, toggleFavorite, handle
     return <option key={genre.id} value={genre.id}>{genre.genre}</option>
   })
 
-  // let filteredSongs;
-  // if (songs) {
-  //
-  //   filteredSongs = songs.filter(song => {
-  //     return song.genre_id === genreSelect
-  //   })
-  // }
-
-  // let favbutton = favorites.filter(fav => {
-  //   return fav.fav === true
-  // })
   let filteredSongs = songs.filter(asong => asong.genre_id === parseInt(genreSelect))
 
   let songDisplay

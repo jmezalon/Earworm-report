@@ -19,7 +19,7 @@ class User extends React.Component {
   getUserFavSongList = (id) => {
     // let userId = parseInt(this.props.match.params.id)
     if(parseInt(id) !== 1) {
-      axios.get(`/profile/bypop/${id}`)
+      axios.get(`/bypop/user/${id}`)
       .then(res => {
           this.setState({
             userFav: res.data.favorites
@@ -44,20 +44,6 @@ class User extends React.Component {
     }
   }
 
-  // getSingleUser(id) {
-  //   let userId = parseInt(this.props.match.params.id)
-  //   axios.get(`/profile/${id}`)
-  //   .then(res => {
-  //     this.setState({
-  //       user: [res.data.user]
-  //     })
-  //   })
-  //   .catch(err => {
-  //     console.log(err, "single USER call");
-  //   })
-  // }
-
-
   // toggle post and favorite buttons
 
   toggleButton4 = () => {
@@ -74,7 +60,6 @@ class User extends React.Component {
     })
   }
 
-  // this.getSingleUser(parseInt(this.props.match.params.id))
 
   handleCommentClick = async () => {
 
@@ -100,7 +85,6 @@ class User extends React.Component {
 
 
   componentDidMount() {
-    // this.getSingleUser(parseInt(this.props.match.params.id))
     if (parseInt(this.props.match.params.id) !== 1) {
       this.getUserSongs(parseInt(this.props.match.params.id))
       this.getUserFavSongList(parseInt(this.props.match.params.id))

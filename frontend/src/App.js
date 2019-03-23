@@ -67,7 +67,7 @@ class App extends Component {
     let favSong = fav.find(ff => ff.song_id === parseInt(id))
 
       if (!favSong) {
-       axios.post('/songs/bypop', {
+       axios.post('/bypop', {
             song_id: parseInt(id),
             user_id: 1
           }
@@ -98,7 +98,7 @@ class App extends Component {
     let favSong = fav.find(ff => ff.song_id === parseInt(id))
 
     if (favSong) {
-      axios.delete(`/songs/bypop/${favSong.id}`)
+      axios.delete(`/bypop/${favSong.id}`)
       .then(res => {
         this.getAllFavorites()
         this.getMyProfileSongs()
@@ -128,7 +128,7 @@ class App extends Component {
 ////this is all the gets request
 
   getAllGenres = () => {
-    axios.get("/songs/bygen")
+    axios.get("/bygen")
     .then(res => {
       this.setState({
         genres: res.data.genres
@@ -138,7 +138,7 @@ class App extends Component {
 
 
   getAllComments = () => {
-    axios.get('/songs/comments')
+    axios.get('/comments')
     .then(res => {
       this.setState({
         comments: res.data.comments
@@ -162,7 +162,7 @@ class App extends Component {
   }
 
   getAllSongsWithUsersGenresOrderByFav() {
-    axios.get('/songs/bypop')
+    axios.get('/bypop/order')
     .then(res => {
       this.setState({
         songs: res.data.songs
@@ -214,7 +214,7 @@ class App extends Component {
   }
 
   getMyFavSongList = () => {
-    axios.get("/profile/bypop/1")
+    axios.get("/bypop/user/1")
     .then(res => {
       this.setState({
         myFavorite: res.data.favorites,
@@ -237,7 +237,7 @@ class App extends Component {
   }
 
   getAllFavorites = () => {
-    axios.get("/songs/bypop/fav")
+    axios.get("/bypop")
     .then(res => {
 
       this.setState({
@@ -294,7 +294,7 @@ class App extends Component {
     let comment= this.state.comment
     let song_id= this.state.song_id
 
-    axios.post('/songs/comment', {
+    axios.post('/comments/add', {
       song_id: song_id,
       user_id: 1,
       comment: comment
@@ -404,7 +404,7 @@ class App extends Component {
             handleFindCommentSongId={this.handleFindCommentSongId}
               />}
             />
-            <Route exact path="/songs/bygen" render={(props) => <ByGen {...props} songs={this.state.songs} favbutton={this.state.favbutton}
+            <Route exact path="/songs/bygen" render={(props) => <ByGen {...props} songs={this.state.feed} favbutton={this.state.favbutton}
             song={this.state.song}
             song_id={this.state.song_id}
             genres={this.state.genres}
