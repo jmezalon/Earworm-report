@@ -1,3 +1,14 @@
+// So this component is huge, nearly 500 lines! 
+// I definitely recommened taking some time now and working
+// on your redux game. Your react game is right where it should be.
+//
+// Overall I am very pleased with your applicaiton. Good
+// job man and way to never give up. This looks great!
+// Only little issues I see, like automatic filtering.
+// Only an issue because it's not what the test asked for,
+// but would be fine for real like application use.
+// Congrats on putting the hard work, it's paying off!
+
 import React, { Component } from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 

@@ -1,3 +1,7 @@
+// This Component should have a sumbit button beside the  
+// genre selection. Should not change / filter until
+// the submit.
+
 import React from 'react';
 import { Link } from "react-router-dom";
 
