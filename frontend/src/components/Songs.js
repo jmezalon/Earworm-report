@@ -1,3 +1,5 @@
+// Songs should filter on the submit and not before. 
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 
